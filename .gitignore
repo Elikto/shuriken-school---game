@@ -1,0 +1,18 @@
+# Godot generated files
+.godot/
+.import/
+*.tmp
+*.log
+
+# Editor/system
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
