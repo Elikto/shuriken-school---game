@@ -1,6 +1,9 @@
 extends SceneTree
 ## CI helper only: use GitHub-hosted Android SDK and JDK to configure Godot.
 func _initialize() -> void:
+    call_deferred("_configure")
+
+func _configure() -> void:
     var settings = EditorInterface.get_editor_settings()
     var android_home: String = OS.get_environment("ANDROID_HOME")
     var java_home: String = OS.get_environment("JAVA_HOME")
