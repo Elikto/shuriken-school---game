@@ -34,6 +34,10 @@ var camera_distance := 8.5
 var camera_height := 2.6
 var camera_sensitivity := 0.003
 var _time := 0.0
+var combo_count := 0
+var combo_window := 0.0
+var swing_time := 0.0
+var knockback_resistance := 0.0
 
 func _ready() -> void:
     add_to_group("player")
@@ -71,6 +75,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func select_hero(index: int) -> void:
     # Smoke cannot persist after switching to a different character.
     smoke_timer = 0.0
+    combo_count = 0
+    combo_window = 0.0
     visual.visible = true
     hero_index = posmod(index, 3)
     _rebuild_character()
@@ -85,6 +91,10 @@ func _physics_process(delta: float) -> void:
         return
     _time += delta
     attack_timer = maxf(0, attack_timer - delta)
+    combo_window = maxf(0.0, combo_window-delta)
+    swing_time = maxf(0.0, swing_time-delta)
+    if combo_window <= 0.0:
+        combo_count = 0
     skill_timer = maxf(0, skill_timer - delta)
     dash_timer = maxf(0, dash_timer - delta)
     dash_invincible = maxf(0, dash_invincible - delta)
@@ -118,7 +128,9 @@ func _physics_process(delta: float) -> void:
     touch_jump = false
     move_and_slide()
     if visual != null:
-        visual.position.y = sin(_time * 13.0) * 0.042 if heading.length() > 0.1 and is_on_floor() else 0.0
+        visual.position.y = sin(_time * 13.0) * 0.045 if heading.length() > 0.1 and is_on_floor() else 0.0
+        visual.rotation.z = lerpf(visual.rotation.z, -0.19 if swing_time > 0.0 else 0.0, clampf(delta*15.0,0,1))
+        visual.rotation.x = lerpf(visual.rotation.x, 0.15 if dash_timer > 0.0 else 0.0, clampf(delta*13.0,0,1))
     _update_camera(delta)
 
 func _update_camera(delta: float) -> void:
@@ -139,7 +151,11 @@ func perform_attack() -> void:
     if attack_timer > 0.0 or health <= 0:
         return
     attack_timer = ATTACK_COOLDOWN
-    attacked.emit(19 if hero_index == 0 else 15, 2.75, facing)
+    combo_count = mini(3, combo_count+1)
+    combo_window = 0.95
+    swing_time = 0.17
+    var strength: int = (19 if hero_index == 0 else 15) + (11 if combo_count == 3 else 3*(combo_count-1))
+    attacked.emit(strength, 3.15 if combo_count == 3 else 2.75, facing)
 
 func activate_smoke() -> void:
     # The synopsis mentions Eizan disappearing into smoke. 3 seconds is a game tuning choice.

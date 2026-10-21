@@ -9,6 +9,7 @@ static func mat(hex_color: String, rough: float = 0.9) -> StandardMaterial3D:
     m.specular_mode = BaseMaterial3D.SPECULAR_DISABLED
     m.roughness = rough
     m.cull_mode = BaseMaterial3D.CULL_BACK
+    m.metallic = 0.02
     return m
 
 static func box(parent: Node3D, size: Vector3, color: String, pos: Vector3 = Vector3.ZERO, rot: Vector3 = Vector3.ZERO) -> MeshInstance3D:

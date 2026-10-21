@@ -6,8 +6,21 @@ const Art = preload("res://scripts/art.gd")
 const PlayerScene = preload("res://scripts/player.gd")
 const EnemyScene = preload("res://scripts/enemy.gd")
 const ChestScene = preload("res://scripts/chest.gd")
+const Progress = preload("res://scripts/progress.gd")
+const ArenaDecor = preload("res://scripts/arena_decor.gd")
 
-const WAVE_SIZES := [5, 8, 12]
+const WAVE_SIZES := [5, 8, 12] # Chapter 1, retained for tests and balancing.
+const CHAPTERS := [
+    {"title": "L'ÉCOLE SHURIKEN", "mission": "Rassemble trois rouleaux d'entraînement.", "waves": [5,8,12], "boss": "CHAMPION DU DOJO", "sky": "#8ecadf"},
+    {"title": "JARDINS DE TOKIROHAMA", "mission": "Rassemble les plans du jardin.", "waves": [7,10,13], "boss": "GARDIEN DU JARDIN", "sky": "#b6cfd0"},
+    {"title": "LE PORTAIL RIVAL", "mission": "Rassemble les indices du tournoi.", "waves": [9,12,15], "boss": "MAÎTRE DES ÉPREUVES", "sky": "#e8abb4"}
+]
+## New dialogues below are ORIGINAL gameplay transitions, NOT lines copied from episodes.
+const MISSION_DIALOGUES := [
+    ["Le cours commence... Si on retrouvait les rouleaux ?", "Un peu de méthode et un peu d'agilité !", "Le champion du dojo arrive. Prépare-toi !"],
+    ["La piste continue dans le jardin. Reste attentif.", "Derrière les bambous, les épreuves deviennent difficiles.", "Le gardien du jardin n'a pas dit son dernier mot !"],
+    ["Nous voici près de l'école rivale. Restons ensemble.", "La compétition se complique. Utilise les trois styles !", "Dernière épreuve : défie le maître !"]
+]
 const HERO_NAMES := ["Eizan", "Okuni", "Jimmy B"]
 const HERO_SKILLS := ["Nuage de fumée", "Onde de corde (prototype)", "Diversion (prototype)"]
 const INK := Color("#122039")
@@ -45,10 +58,24 @@ var popup_body: Label
 var play_button: Button
 var mode_text := "DÉMONSTRATION 3D — adaptation non officielle"
 var rng := RandomNumberGenerator.new()
+var selected_chapter := 0
+var profile: Dictionary = {}
+var session_upgrade := 0
+var chapter_art: Node3D
+var scrolls: Array = []
+var scrolls_found := 0
+var projectiles: Array = []
+var warnings: Array = []
+var gathering := false
+var chapter_label: Label
+var chapter_buttons: Array = []
+var victory_ready := false
+var sky_environment: Environment
 
 func _ready() -> void:
     _install_actions()
     rng.seed = 20261021
+    profile = Progress.read_profile()
     Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
     _build_environment()
     _build_level()
@@ -98,6 +125,7 @@ func _build_environment() -> void:
     env.reflected_light_source = Environment.REFLECTION_SOURCE_DISABLED
     env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
     worldenv.environment = env
+    sky_environment = env
     var sun := DirectionalLight3D.new()
     sun.rotation_degrees = Vector3(-48,-32,0)
     sun.light_color = Color("#fff4d3")
@@ -205,7 +233,12 @@ func _process(delta: float) -> void:
     if not active or ended:
         return
     stage_timer += delta
-    _update_stage(delta)
+    if gathering:
+        _collect_scrolls()
+    else:
+        _update_stage(delta)
+    _update_projectiles(delta)
+    _update_warnings(delta)
     _update_hud()
     if toast_timer > 0:
         toast_timer -= delta
@@ -228,6 +261,45 @@ func _unhandled_input(event: InputEvent) -> void:
     if event.is_action_pressed("action_pause"):
         _pause_game()
 
+func _select_chapter(chapter: int) -> void:
+    if chapter < 0 or chapter >= int(profile.get("unlocked", 1)):
+        _toast("Cette mission n'est pas encore accessible.", 2.0)
+        return
+    selected_chapter = chapter
+    _start()
+
+func _apply_chapter_art() -> void:
+    if is_instance_valid(chapter_art):
+        chapter_art.queue_free()
+    chapter_art = ArenaDecor.create(self, selected_chapter)
+    sky_environment.background_color = Color(str(CHAPTERS[selected_chapter]["sky"]))
+
+func _spawn_scrolls() -> void:
+    scrolls.clear()
+    scrolls_found = 0
+    gathering = true
+    for at in [Vector3(-9, 0, -10), Vector3(10, 0, 2), Vector3(-3, 0, 12)]:
+        var scroll := Node3D.new()
+        scroll.position = at
+        add_child(scroll)
+        Art.cylinder(scroll, 0.23, 1.25, "#ffdfa4", Vector3(0,1.12,0))
+        Art.cylinder(scroll, 0.30, 0.11, "#c77d73", Vector3(0,1.7,0))
+        Art.cylinder(scroll, 0.30, 0.11, "#c77d73", Vector3(0,0.53,0))
+        Art.ball(scroll, 0.18, "#f9f3ca", Vector3(0,2.05,0))
+        scrolls.append(scroll)
+
+func _collect_scrolls() -> void:
+    for scroll in scrolls.duplicate():
+        if is_instance_valid(scroll) and scroll.global_position.distance_to(player.global_position) < 2.1:
+            scrolls.erase(scroll)
+            scroll.queue_free()
+            scrolls_found += 1
+            _toast("Rouleau récupéré ! %d/3" % scrolls_found, 1.5)
+    if scrolls.is_empty() and gathering:
+        gathering = false
+        _toast("Mission de repérage terminée. Place aux épreuves !", 3.0)
+        _next_wave()
+
 func _start() -> void:
     active = true
     ended = false
@@ -243,6 +315,20 @@ func _start() -> void:
     stage_timer = 0.0
     waiting_for_chest = false
     boss_active = false
+    victory_ready = false
+    session_upgrade = 0
+    _apply_chapter_art()
+    for scroll in scrolls:
+        if is_instance_valid(scroll):
+            scroll.queue_free()
+    for p in projectiles:
+        if is_instance_valid(p.get("mesh")):
+            p["mesh"].queue_free()
+    projectiles.clear()
+    for w in warnings:
+        if is_instance_valid(w.get("mesh")):
+            w["mesh"].queue_free()
+    warnings.clear()
     for f in foes:
         if is_instance_valid(f):
             f.queue_free()
@@ -251,23 +337,23 @@ func _start() -> void:
             c.queue_free()
     foes.clear()
     chests.clear()
-    _toast("École Shuriken — entraînement spécial !",4.5)
-    _next_wave()
+    _spawn_scrolls()
+    _toast(str(CHAPTERS[selected_chapter]["mission"]), 4.5)
 
 func _next_wave() -> void:
     waiting_for_chest = false
     wave += 1
-    if wave <= WAVE_SIZES.size():
-        waiting_spawns = WAVE_SIZES[wave-1]
+    if wave <= 3:
+        waiting_spawns = int(CHAPTERS[selected_chapter]["waves"][wave-1])
         spawn_clock = 0.25
         boss_panel.hide()
-        _toast("VAGUE %d — Des adversaires approchent !" % wave,3.6)
+        _toast(str(MISSION_DIALOGUES[selected_chapter][wave-1]), 4.5)
     else:
         boss_active = true
         waiting_spawns = 0
         boss_panel.show()
         _spawn_enemy(true)
-        _toast("BOSS — Le champion rival !",4.4)
+        _toast("BOSS — " + str(CHAPTERS[selected_chapter]["boss"]),4.4)
 
 func _update_stage(delta: float) -> void:
     if waiting_spawns > 0:
@@ -288,14 +374,68 @@ func _spawn_enemy(is_boss: bool) -> void:
     var enemy = EnemyScene.new()
     var spawn_a := rng.randf_range(0,TAU)
     enemy.position = Vector3(cos(spawn_a)*15,0,sin(spawn_a)*15)
-    enemy.configure(is_boss,player)
+    var kind := (0 if is_boss else (int(defeated+waiting_spawns+selected_chapter)%3))
+    enemy.configure(is_boss,player,kind,selected_chapter)
     enemy.killed.connect(_enemy_killed)
     enemy.contact_attack.connect(_enemy_contact)
+    enemy.ranged_attack.connect(_enemy_ranged)
+    enemy.warning_started.connect(_enemy_warning)
+    enemy.area_attack.connect(_enemy_area)
     add_child(enemy)
     foes.append(enemy)
 
 func _enemy_contact(amount: int) -> void:
     player.take_damage(amount)
+
+func _enemy_ranged(origin: Vector3, direction: Vector3, amount: int) -> void:
+    var mesh := Art.ball(self,0.25,"#f7ce82",origin)
+    mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+    projectiles.append({"mesh": mesh, "heading": direction.normalized(), "damage": amount, "life": 3.0})
+
+func _enemy_warning(where: Vector3, radius: float) -> void:
+    var ring := Art.cylinder(self,radius,0.05,"#e58b88",where + Vector3(0,0.035,0))
+    var warning_material := StandardMaterial3D.new()
+    warning_material.albedo_color = Color(0.91,0.31,0.31,0.30)
+    warning_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+    warning_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+    ring.material_override = warning_material
+    ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+    warnings.append({"mesh": ring, "life": 1.10})
+    _toast("⚠ Le boss prépare une attaque : esquive !",1.4)
+
+func _enemy_area(where: Vector3, radius: float, amount: int) -> void:
+    var flat: Vector3 = player.global_position - where
+    flat.y = 0.0
+    if flat.length() <= radius:
+        player.take_damage(amount)
+    for w in warnings:
+        if is_instance_valid(w["mesh"]):
+            w["mesh"].queue_free()
+    warnings.clear()
+
+func _update_warnings(delta: float) -> void:
+    for warn in warnings.duplicate():
+        warn["life"] -= delta
+        if warn["life"] <= 0.0:
+            if is_instance_valid(warn["mesh"]):
+                warn["mesh"].queue_free()
+            warnings.erase(warn)
+
+func _update_projectiles(delta: float) -> void:
+    for projectile in projectiles.duplicate():
+        if not is_instance_valid(projectile["mesh"]):
+            projectiles.erase(projectile)
+            continue
+        projectile["mesh"].position += projectile["heading"] * 12.0 * delta
+        projectile["life"] -= delta
+        var separation: Vector3 = projectile["mesh"].global_position - (player.global_position + Vector3(0,1.2,0))
+        if separation.length() < 0.8:
+            player.take_damage(int(projectile["damage"]))
+            projectile["mesh"].queue_free()
+            projectiles.erase(projectile)
+        elif projectile["life"] <= 0.0:
+            projectile["mesh"].queue_free()
+            projectiles.erase(projectile)
 
 func _enemy_killed(enemy: CharacterBody3D, reward: int) -> void:
     foes.erase(enemy)
@@ -327,7 +467,8 @@ func _chest_opened(_c: Node3D) -> void:
     chests.erase(_c)
     currency += 30
     player.heal(25)
-    _toast("COFFRE OUVERT ! +30 pièces · +25 santé",3.6)
+    session_upgrade += 1
+    _toast("COFFRE : +30 pièces · +25 santé · attaque +%d" % (session_upgrade*3),3.6)
     waiting_for_chest = false
     _next_wave()
 
@@ -339,7 +480,7 @@ func _on_attacked(strength: int, reach: float, face_dir: Vector3) -> void:
         direction.y = 0.0
         if direction.length() <= reach + (1.1 if e.boss else 0.0):
             if face_dir.dot(direction.normalized()) > 0.17:
-                e.hit(strength)
+                e.hit(strength + session_upgrade * 3)
 
 func _on_skill(hero: int, center: Vector3) -> void:
     if hero == 0:
@@ -381,7 +522,15 @@ func _on_dead() -> void:
     _end_game("MISSION ÉCHOUÉE","L'entraînement est terminé. Réessaie pour améliorer ton score.")
 
 func _victory() -> void:
-    _end_game("VICTOIRE !","Trois vagues, les coffres et le champion ont été surmontés.\nPièces : %d  •  Adversaires : %d" % [currency,defeated])
+    var stars: int = 3 if player.health >= 75 else (2 if player.health >= 35 else 1)
+    profile = Progress.finish_chapter(profile, selected_chapter, stars, currency)
+    var saved: bool = Progress.write_profile(profile)
+    victory_ready = true
+    _end_game("MISSION TERMINÉE !", "%s\n%d étoile(s) · %d pièces · %d adversaires\nSauvegarde locale : %s" % [
+        CHAPTERS[selected_chapter]["title"], stars, currency, defeated, "OK" if saved else "indisponible"
+    ])
+    play_button.text = "MISSION SUIVANTE" if selected_chapter < 2 else "REJOUER"
+    _refresh_chapter_buttons()
 
 func _end_game(title: String, body: String) -> void:
     ended = true
@@ -417,6 +566,8 @@ func _pause_game() -> void:
 func _start_or_resume() -> void:
     if not active and not ended and wave > 0:
         _pause_game()
+    elif victory_ready and selected_chapter < 2:
+        _select_chapter(selected_chapter+1)
     else:
         _start()
 
@@ -426,8 +577,9 @@ func _toast(message: String, duration: float) -> void:
         event_label.text = message
 
 func _update_hud() -> void:
-    wave_label.text = "VAGUE %d/3" % mini(wave,3) if not boss_active else "COMBAT FINAL"
-    objective_label.text = "OUVRIR LE COFFRE  [E]" if waiting_for_chest else ("VAINCRE LE CHAMPION" if boss_active else "VAINCRE LES ADVERSAIRES")
+    wave_label.text = "REPÉRAGE" if gathering else ("VAGUE %d/3" % mini(wave,3) if not boss_active else "COMBAT FINAL")
+    objective_label.text = ("ROULEAUX : %d/3" % scrolls_found) if gathering else ("OUVRIR LE COFFRE  [E]" if waiting_for_chest else ("VAINCRE LE BOSS" if boss_active else "VAINCRE LES ADVERSAIRES"))
+    chapter_label.text = "MISSION %d/3 — %s" % [selected_chapter+1, CHAPTERS[selected_chapter]["title"]]
     coin_label.text = "✦ %d" % currency
     hero_label.text = "%s   ·   %s" % [HERO_NAMES[player.hero_index],HERO_SKILLS[player.hero_index]]
     timer_label.text = "%02d:%02d" % [int(stage_timer/60.0),int(stage_timer)%60]
@@ -494,6 +646,7 @@ func _build_interface() -> void:
     health_bar.show_percentage = false
     stack.add_child(health_bar)
     hero_label = _label(stack,"Eizan  ·  Élan rapide",15)
+    chapter_label = _label(stack,"MISSION 1/3",12,GOLD)
     objective_label = _label(stack,"OBJECTIF : VAINCRE LES ADVERSAIRES",12,Color("#e8cfa8"))
 
     var right_panel := PanelContainer.new()
@@ -525,7 +678,7 @@ func _build_interface() -> void:
     hud.add_child(boss_panel)
     var boss_stack := VBoxContainer.new()
     boss_panel.add_child(boss_stack)
-    _label(boss_stack,"CHAMPION DE L'ÉCOLE RIVALE",15,GOLD)
+    _label(boss_stack,"BOSS — TROIS PHASES DE COMBAT",15,GOLD)
     boss_bar = ProgressBar.new()
     boss_bar.show_percentage = false
     boss_bar.max_value = 460
@@ -551,8 +704,8 @@ func _build_interface() -> void:
     overlay.add_child(dim)
     var center := VBoxContainer.new()
     center.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-    center.position = Vector2(-335,-194)
-    center.custom_minimum_size = Vector2(670,350)
+    center.position = Vector2(-335,-240)
+    center.custom_minimum_size = Vector2(670,465)
     center.add_theme_constant_override("separation",24)
     overlay.add_child(center)
     var kicker := _label(center,"PROTOTYPE NON OFFICIEL · 3D TOON",15,GOLD)
@@ -564,6 +717,17 @@ func _build_interface() -> void:
     popup_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     play_button = _button(center,"COMMENCER L'ENTRAÎNEMENT",Rect2(0,0,500,62),_start_or_resume)
     play_button.custom_minimum_size = Vector2(500,62)
+    var chapter_hint := _label(center,"CHOISIR UNE MISSION (débloquée après victoire)",13,GOLD)
+    chapter_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    var chapter_row := HBoxContainer.new()
+    chapter_row.alignment = BoxContainer.ALIGNMENT_CENTER
+    chapter_row.add_theme_constant_override("separation",12)
+    center.add_child(chapter_row)
+    for i in range(3):
+        var chapter_button := _button(chapter_row,"MISSION %d" % (i+1),Rect2(0,0,191,46),_select_chapter.bind(i))
+        chapter_button.custom_minimum_size = Vector2(191,46)
+        chapter_buttons.append(chapter_button)
+    _refresh_chapter_buttons()
     var footer := _label(center,"© univers original : ayants droit de Shuriken School. Aucun asset officiel inclus.",12,Color("#e1c698"))
     footer.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     overlay.hide()
@@ -598,6 +762,11 @@ func _build_touch_buttons(parent: Control) -> void:
     _touch_button(parent,"↗",Vector2(1,1),Vector2(-116,-106),func(): player.touch_jump=true,func(): pass)
     _touch_button(parent,"Q",Vector2(1,1),Vector2(-274,-106),func(): _switch_hero(),func(): pass)
     _touch_button(parent,"E",Vector2(1,1),Vector2(-194,-106),func(): _on_interact(),func(): pass)
+
+func _refresh_chapter_buttons() -> void:
+    for i in range(chapter_buttons.size()):
+        chapter_buttons[i].disabled = i >= int(profile.get("unlocked", 1))
+        chapter_buttons[i].text = "%d · %s" % [i+1,"★".repeat(int(profile["best_stars"][i])) if profile["best_stars"][i] > 0 else ("OUVERT" if not chapter_buttons[i].disabled else "VERROUILLÉ")]
 
 func _show_menu() -> void:
     popup_title.text = "SHURIKEN SCHOOL"
