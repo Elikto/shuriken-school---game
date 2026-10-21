@@ -14,10 +14,13 @@ static func create(parent: Node3D, hero: int) -> Node3D:
                 parent.add_child(imported)
                 imported.name = "BlenderHero"
                 imported.set_meta("asset_source", path)
+                # Keep authored idle clip in the imported file for future
+                # animation blending, but leave playback stopped now:
+                # RiggedAnimator drives Skeleton3D each physics tick.
                 var players: Array[Node] = imported.find_children("*", "AnimationPlayer", true, false)
-                if not players.is_empty():
-                    var anim: AnimationPlayer = players[0] as AnimationPlayer
-                    if anim != null and not anim.get_animation_list().is_empty():
-                        anim.play(anim.get_animation_list()[0])
+                for node in players:
+                    var animation_player := node as AnimationPlayer
+                    if animation_player != null:
+                        animation_player.stop()
                 return imported
     return Art.ninja(parent, hero)

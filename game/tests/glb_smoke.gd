@@ -41,6 +41,21 @@ func _run() -> void:
             var skeleton: Skeleton3D = skeletons[0]
             for bone in ["Root", "Pelvis", "Spine", "Head", "ArmL", "ArmR", "LegL", "LegR"]:
                 check(skeleton.find_bone(bone) >= 0, hero + " bone " + bone + " exists")
+            # Actual runtime gameplay poses must rotate Blender bones, not
+            # merely rely on an idle animation embedded in the GLB file.
+            var rig_animator = load("res://scripts/rigged_animator.gd")
+            var right_arm_index: int = skeleton.find_bone("ArmR")
+            var left_leg_index: int = skeleton.find_bone("LegL")
+            if right_arm_index >= 0 and left_leg_index >= 0:
+                rig_animator.pose(skeleton, 0, &"attack", 0.5, 0.25, 0.0, 1)
+                var strike_angle: float = skeleton.get_bone_pose_rotation(right_arm_index).angle_to(Quaternion.IDENTITY)
+                check(strike_angle > 0.4, hero + " imported skeleton responds to attack")
+                rig_animator.pose(skeleton, 0, &"run", 0.2, 0.25, 1.0)
+                var run_angle: float = skeleton.get_bone_pose_rotation(left_leg_index).angle_to(Quaternion.IDENTITY)
+                check(run_angle > 0.1, hero + " imported skeleton responds to running")
+                rig_animator.pose(skeleton, 0, &"jump", 0.2, 0.25, 0.0)
+                var jump_angle: float = skeleton.get_bone_pose_rotation(left_leg_index).angle_to(Quaternion.IDENTITY)
+                check(jump_angle > 0.5, hero + " imported skeleton responds to jumping")
         check(not players.is_empty(), hero + " GLB includes an AnimationPlayer")
         if not players.is_empty():
             var anim: AnimationPlayer = players[0]

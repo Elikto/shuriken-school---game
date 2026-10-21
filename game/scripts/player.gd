@@ -9,6 +9,7 @@ signal died
 const Art = preload("res://scripts/art.gd")
 const HeroModels = preload("res://scripts/hero_models.gd")
 const Animator = preload("res://scripts/character_animator.gd")
+const RiggedAnimator = preload("res://scripts/rigged_animator.gd")
 const RUN_SPEED := 8.0
 const JUMP_SPEED := 10.0
 const GRAVITY := 23.0
@@ -30,6 +31,7 @@ var wall_run_left := 0.0
 var smoke_timer := 0.0
 var visual: Node3D
 var character_rig: Node3D
+var blender_skeleton: Skeleton3D
 var animation_state: StringName = &"idle"
 var camera: Camera3D
 var camera_yaw := 0.0
@@ -89,6 +91,13 @@ func _rebuild_character() -> void:
     for n in visual.get_children():
         n.queue_free()
     character_rig = HeroModels.create(visual, hero_index)
+    blender_skeleton = null
+    # The model loader marks original imported GLB scenes. Their skeletons are
+    # driven by the same gameplay states as the procedural fallback models.
+    if character_rig.has_meta("asset_source"):
+        var skeletons: Array[Node] = character_rig.find_children("*", "Skeleton3D", true, false)
+        if not skeletons.is_empty():
+            blender_skeleton = skeletons[0] as Skeleton3D
     animation_state = Animator.STATE_IDLE
 
 func _physics_process(delta: float) -> void:
@@ -154,7 +163,10 @@ func _animate_character(motion: float, delta: float) -> void:
     elif motion > 0.12:
         intended = Animator.STATE_SKATE if hero_index == 2 else Animator.STATE_RUN
     animation_state = intended
-    Animator.pose(character_rig,hero_index,intended,_time,delta,motion,combo_count)
+    if is_instance_valid(blender_skeleton):
+        RiggedAnimator.pose(blender_skeleton, hero_index, intended, _time, delta, motion, combo_count)
+    else:
+        Animator.pose(character_rig,hero_index,intended,_time,delta,motion,combo_count)
 
 func _update_camera(delta: float) -> void:
     if camera == null or not is_instance_valid(camera) or not camera.is_inside_tree():
