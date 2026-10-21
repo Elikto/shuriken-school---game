@@ -1,63 +1,36 @@
-# Shuriken School — Game
+# Shuriken School — Action 3D à la troisième personne
 
-## 🎮 Première mission jouable (web, v0.2)
+**Nouvelle orientation (octobre 2026)** : le prototype rétro/2D a été supprimé de `main` et remplacé par la base d'un **jeu 3D cartoon** Godot. Référentiel : série d'animation Shuriken School. **Projet de fan non officiel**.
 
-Ouvrir **[le prototype dans `web/`](web/index.html)** : recherche d'indices, trois ninjas, gardes, mission terminable, contrôles PC et tactiles. Le dossier `web/` peut être publié sur un hébergement statique HTTPS ; GitHub ne lance pas automatiquement le jeu depuis la vue de code.
+## La nouvelle base 3D
 
-**Statut :** version solo jouable, assets vectoriels temporaires ; **coop Internet, jeu complet et fidélité visuelle 100 % non réalisés**. Voir le [guide du prototype](web/README.md).
+Ouvrir **[`game/project.godot`](game/project.godot)** dans Godot 4.6.3 pour lancer une arène 3D expérimentale, avec caméra arrière orbitale et déplacement libre, trois vagues d'ennemis, compétences de prototype, coffres, récompenses, puis boss final. Les touches et limitations sont indiquées dans [`game/README.md`](game/README.md).
 
+**À ne pas confondre avec un jeu terminé** : code fourni, mais la version n'a pas été exécutée/validée dans Godot lors de ce commit. La coopération en ligne PC/Android, la qualité « jeu commercial », les animations officielles, la reconstitution du dessin animé et les exports Windows/Android sont encore à faire. Les personnages sont représentés par des formes 3D originales provisoires sans modèles sous licence.
 
-Projet de **jeu d'action-aventure en 2D**, PC et mobile, avec coopération en ligne prévue, fondé sur une règle de production : **respecter au maximum l'univers de la série animée Shuriken School (2006)**.
+## Respect du dessin animé
 
-> **Statut : conception + prototype technique.** Ce dépôt ne contient pas encore un jeu complet, des graphismes officiels, des missions terminées, ni un multijoueur Internet validé. La fidélité à 100 % est un **objectif**, pas une certification acquise.
+- [Registre des actions, mouvements et dialogues](docs/CANON_ET_MOUVEMENTS.md) : une compétence n'est pas déclarée canonique sans source/épisode/timecode.
+- [Game Design Document V2 — 3D, hordes et boss](docs/GDD_V2_3D.md).
+- [Feuille de route 3D](docs/ROADMAP_3D.md).
+- [Droits et fidélité](docs/FIDELITE_ET_DROITS.md).
 
-## Commencer
+Le **wall-run** est présent à titre de **test de gameplay non confirmé par la série**, activable/désactivable dans `game/scripts/player.gd`. Aucune réplique originale n'a été intégrée sans autorisation ni vérification.
 
-- [Game Design Document V1](docs/GDD_V1.md) : univers, personnages, missions, gameplay, coop, contraintes et budget.
-- [Feuille de route](docs/ROADMAP.md) : étapes et critères de progression.
-- [Fidélité et droits](docs/FIDELITE_ET_DROITS.md) : vérification du canon et gestion des éléments protégés.
-- [Prototype Godot](game/README.md) : déplacement, shurikens, cible d'entraînement, réseau local ENet (non validé sur appareils).
+## Commandes PC
 
-Pour ouvrir le prototype, importer `game/project.godot` depuis Godot 4.x compatible (configuration initiale pour Godot 4.6).
+WASD / flèches = déplacement, clic droit + souris = caméra, clic gauche = attaque, Espace = saut, Maj = esquive, F = compétence, Q = alterner les personnages, E = ouvrir un coffre, Échap = relâcher la souris/pause.
 
-## Vision
+## État
 
-- **Personnages principaux :** Eizan Kaburagi, Okuni Dohan et Jimmy B.
-- **Plateformes :** Windows et Android d'abord ; iOS plus tard.
-- **Modes visés :** solo avec changement de héros, coop Internet 1–3 joueurs, invitations privées, cross-play.
-- **Ton :** cartoon, humour, école ninja, aventure et rivalité Shuriken / Katana.
-- **Premier niveau cible :** *La furie des tongs* (adaptation jouable d'une intrigue existante).
-- **Moteur :** Godot 4.x, sans licence moteur payante.
+| Lot | État |
+|---|---|
+| Ancienne version 2D/rétro | Supprimée des fichiers de `main` (reste dans l'historique Git) |
+| Gameplay 3D troisième personne | Implémenté, **non validé en moteur** |
+| 3 vagues, boss, coffres, soins | Implémentés, **non validés en moteur** |
+| Décor toon original | Prototypé, **non fidèle aux assets officiels** |
+| Mouvements + dialogues exacts dessin animé | Recherche épisode par épisode en attente |
+| Coop Internet PC/mobile | Non implémentée |
+| Exécutables Windows / APK Android | Non créés |
 
-## État actuel
-
-| Élément | État |
-| --- | --- |
-| Conception GDD | Première version écrite |
-| Prototype Godot | Code source initial ajouté |
-| Exécution et tests Godot | Non effectués / non confirmés |
-| Coopération réseau local | Ébauche ENet, à tester |
-| Coopération Internet | Non développée |
-| Missions et assets fidèles | À réaliser après étude des épisodes |
-| Compilation Android/iOS | Non effectuée |
-| Publication officielle | Droits non obtenus |
-
-## Remarques juridiques
-
-L'univers, les personnages, noms, musiques, images et autres éléments de Shuriken School appartiennent à leurs ayants droit. Un projet de fans gratuit ne garantit pas un droit de reproduction ou de diffusion. Le code technique du prototype ne contient pas les ressources de la série ; toute diffusion publique des éléments protégés nécessite une vérification et, selon les usages, une autorisation.
-
-## Organisation
-
-```text
-game/
-  project.godot
-  main.tscn
-  game.gd
-  README.md
-docs/
-  GDD_V1.md
-  ROADMAP.md
-  FIDELITE_ET_DROITS.md
-```
-
-Aucun agent Burnout, bot Discord ou serveur n'est démarré par ce dépôt.
+Aucun agent local, aucune dépense cloud ni service extérieur n'a été lancé par ce dépôt.
