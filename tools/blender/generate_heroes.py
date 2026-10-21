@@ -69,7 +69,8 @@ def new_rig():
     rig = bpy.context.object
     rig.name = "HeroSkeleton"
     bones = rig.data.edit_bones
-    bones.clear()
+    for old_bone in list(bones):
+        bones.remove(old_bone)
 
     def create(name, head, tail, parent=None):
         bone = bones.new(name)
