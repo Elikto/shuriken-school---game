@@ -8,6 +8,8 @@ const EnemyScene = preload("res://scripts/enemy.gd")
 const ChestScene = preload("res://scripts/chest.gd")
 const Progress = preload("res://scripts/progress.gd")
 const ArenaDecor = preload("res://scripts/arena_decor.gd")
+const ModernScenery = preload("res://scripts/modern_scenery.gd")
+const MinimapScript = preload("res://scripts/minimap.gd")
 
 const WAVE_SIZES := [5, 8, 12] # Chapter 1, retained for tests and balancing.
 const CHAPTERS := [
@@ -79,6 +81,7 @@ func _ready() -> void:
     Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
     _build_environment()
     _build_level()
+    _install_modern_visuals()
     player = PlayerScene.new()
     player.name = "Hero"
     player.position = Vector3(0,0,6)
@@ -196,6 +199,9 @@ func _build_level() -> void:
     # Wall runway prototype (unverified as canon).
     _solid(Vector3(0.75,3.5,7.0),"#d7b6a2",Vector3(-13.0,1.75,-7.5))
     Art.box(self,Vector3(0.12,0.10,7.0),"#efc66e",Vector3(-12.58,2.78,-7.5))
+
+func _install_modern_visuals() -> void:
+    ModernScenery.create(self,0)
 
 func _tree(point: Vector3, index: int) -> void:
     var node := Node3D.new()
@@ -636,7 +642,7 @@ func _build_interface() -> void:
     hud.add_child(top_panel)
     var stack := VBoxContainer.new()
     top_panel.add_child(stack)
-    var title := _label(stack,"SHURIKEN SCHOOL  •  CAMPAGNE 3D",20,GOLD)
+    var title := _label(stack,"SHURIKEN SCHOOL  •  AVENTURE 3D",20,GOLD)
     title.add_theme_color_override("font_shadow_color",Color.BLACK)
     health_bar = ProgressBar.new()
     health_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -653,11 +659,21 @@ func _build_interface() -> void:
     right_panel.add_theme_stylebox_override("panel",_style_box(Color(0.075,0.12,0.22,0.84),13))
     right_panel.anchor_left = 1
     right_panel.anchor_right = 1
-    right_panel.offset_left = -265
-    right_panel.offset_right = -23
-    right_panel.offset_top = 17
-    right_panel.offset_bottom = 120
+    right_panel.offset_left = -230
+    right_panel.offset_right = -20
+    right_panel.offset_top = 222
+    right_panel.offset_bottom = 336
     hud.add_child(right_panel)
+    var minimap := MinimapScript.new()
+    minimap.name = "LiveMinimap"
+    minimap.world = self
+    minimap.anchor_left = 1.0
+    minimap.anchor_right = 1.0
+    minimap.offset_left = -218
+    minimap.offset_right = -20
+    minimap.offset_top = 10
+    minimap.offset_bottom = 208
+    hud.add_child(minimap)
     var right_stack := VBoxContainer.new()
     right_panel.add_child(right_stack)
     wave_label = _label(right_stack,"VAGUE 1/3",21,GOLD)

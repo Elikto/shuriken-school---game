@@ -29,9 +29,9 @@ var smoke_timer := 0.0
 var visual: Node3D
 var camera: Camera3D
 var camera_yaw := 0.0
-var camera_pitch := -0.22
-var camera_distance := 6.9
-var camera_height := 2.15
+var camera_pitch := 0.38
+var camera_distance := 19.0
+var camera_height := 8.2
 var camera_sensitivity := 0.003
 var _time := 0.0
 var combo_count := 0
