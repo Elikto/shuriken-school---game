@@ -1,0 +1,59 @@
+name: Blender - Modeles 3D Shuriken
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/blender/**"
+      - ".github/workflows/shuriken-3d-models.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: shuriken-blender-hero-generation
+  cancel-in-progress: true
+jobs:
+  export:
+    name: Produire et tester trois personnages GLB
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vérifier la syntaxe Python
+        run: python3 -m py_compile tools/blender/generate_heroes.py
+      - name: Installer Blender sur le serveur temporaire
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y blender
+          blender --version | head -n 2
+      - name: Générer Eizan, Okuni et Jimmy (maquettes originales)
+        run: |
+          mkdir -p dist/models
+          blender --background --threads 2 --python tools/blender/generate_heroes.py -- --output-dir dist/models
+      - name: Valider GLB, squelette et animation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,struct
+          for hero in ("eizan", "okuni", "jimmy"):
+              path=Path("dist/models")/(hero+".glb")
+              data=path.read_bytes()
+              magic,version,length=struct.unpack_from("<III",data)
+              assert magic==0x46546c67 and version==2 and length==len(data), hero
+              chunk_size,chunk_type=struct.unpack_from("<II",data,12)
+              assert chunk_type==0x4e4f534a,hero
+              scene=json.loads(data[20:20+chunk_size])
+              assert scene.get("skins"),hero+" has no skinned mesh"
+              assert scene.get("animations"),hero+" has no animation"
+              assert len(scene.get("meshes",[]))>=10,hero
+              bones={node.get("name") for node in scene.get("nodes",[])}
+              for bone in ("Root","Pelvis","Spine","Head","ArmL","ArmR","LegL","LegR"):
+                  assert bone in bones,(hero,bone)
+              print(hero+":",len(scene["meshes"]),"parts,",len(scene["skins"]),"skin,",len(scene["animations"]),"animation(s)")
+          print("GLB_FORMAT_OK")
+          PY
+      - name: Publier les GLB sous forme d'artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Shuriken-Heros-Blender-GLB
+          path: dist/models/*.glb
+          retention-days: 30
