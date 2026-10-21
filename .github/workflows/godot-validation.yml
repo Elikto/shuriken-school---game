@@ -1,0 +1,45 @@
+name: Vérification Godot 3D
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "game/**"
+      - ".github/workflows/godot-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  godot-validation:
+    name: Import et démarrage Godot 4.6.3
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Récupérer le projet
+        uses: actions/checkout@v4
+
+      - name: Installer Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.3
+          use-dotnet: false
+          include-templates: false
+
+      - name: Vérifier la version
+        run: godot --version
+
+      - name: Importer les scripts et scènes
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --path game --editor --import --quit 2>&1 | tee godot-import.log
+          if grep -E 'SCRIPT ERROR|Parser Error|Parse Error' godot-import.log; then exit 1; fi
+
+      - name: Lancer brièvement la scène principale
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --path game --quit-after 5 2>&1 | tee godot-runtime.log
+          if grep -E 'SCRIPT ERROR|Parser Error|Parse Error' godot-runtime.log; then exit 1; fi
