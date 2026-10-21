@@ -104,3 +104,48 @@ jobs:
           name: ShurikenSchool3D-Apercu
           path: game/preview.png
           retention-days: 30
+
+  android-debug:
+    name: Compiler un APK Android de test
+    needs: godot-validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.3
+          use-dotnet: false
+          include-templates: true
+      - name: Configurer SDK Android / Java pour Godot
+        env:
+          GODOT_ANDROID_KEYSTORE_DEBUG_PATH: ${{ github.workspace }}/debug.keystore
+          GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
+          GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: android
+        shell: bash
+        run: |
+          keytool -genkeypair -keystore "$GITHUB_WORKSPACE/debug.keystore" -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Shuriken Debug,OU=Game,O=Elikto,C=FR"
+          godot --headless --editor --path game --script res://tests/configure_android.gd
+          godot --headless --path game --editor --import --quit
+      - name: Exporter APK signé pour tests (non destiné au Play Store)
+        env:
+          GODOT_ANDROID_KEYSTORE_DEBUG_PATH: ${{ github.workspace }}/debug.keystore
+          GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
+          GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: android
+        shell: bash
+        run: |
+          mkdir -p dist
+          godot --headless --path game --export-debug "Android" ../dist/ShurikenSchool3D-debug.apk
+          test -s dist/ShurikenSchool3D-debug.apk
+      - name: Publier l'APK de test
+        uses: actions/upload-artifact@v4
+        with:
+          name: ShurikenSchool3D-Android-Debug
+          path: dist/*.apk
+          retention-days: 30
