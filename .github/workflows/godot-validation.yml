@@ -136,7 +136,7 @@ jobs:
         shell: bash
         run: |
           keytool -genkeypair -keystore "$GITHUB_WORKSPACE/debug.keystore" -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Shuriken Debug,OU=Game,O=Elikto,C=FR"
-          godot --headless --editor --path game --script res://tests/configure_android.gd
+          timeout 110s godot --headless --editor --path game --script res://tests/configure_android.gd
           godot --headless --path game --editor --import --quit
       - name: Exporter APK signé pour tests (non destiné au Play Store)
         env:
