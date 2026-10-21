@@ -5,9 +5,15 @@ on:
     paths:
       - "dashboard/**"
       - ".github/workflows/shuriken-dashboard-pages.yml"
+      - "tools/dashboard/**"
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Vérification Godot 3D"]
+    types: [completed]
+    branches: [main]
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 concurrency:
@@ -15,6 +21,8 @@ concurrency:
   cancel-in-progress: true
 jobs:
   publish:
+    # Publish new captured images after completed successful Godot runs only.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     name: Publier sur GitHub Pages
     runs-on: ubuntu-latest
     timeout-minutes: 12
@@ -27,6 +35,12 @@ jobs:
           test -s dashboard/index.html
           test -s dashboard/README.md
           node -e "const fs=require('fs'); let s=fs.readFileSync('dashboard/index.html','utf8'); if(!s.includes('GitHub'))process.exit(1)"
+      - name: Rassembler les 5 captures réelles de Godot
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 tools/dashboard/assemble_previews.py
+          test -s dashboard/live/manifest.json
       - uses: actions/configure-pages@v5
         with:
           enablement: true
