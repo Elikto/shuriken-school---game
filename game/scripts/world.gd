@@ -174,7 +174,7 @@ func _tree(point: Vector3, index: int) -> void:
     node.position = point
     add_child(node)
     Art.cylinder(node,0.35,4.0,"#8a5d51",Vector3(0,2.0,0),0.20)
-    var pink := ["#ffc9d9","#ee9fba","#ffe4e8"][index%3]
+    var pink: String = ["#ffc9d9","#ee9fba","#ffe4e8"][index%3]
     for n in range(5):
         var a := float(n)*TAU/5
         Art.ball(node,1.7,pink,Vector3(cos(a)*1.25,4.2+sin(float(n)*2.0)*0.45,sin(a)*1.25),Vector3(1.0,0.82,1.0))
@@ -368,7 +368,7 @@ func _smoke_effect(center: Vector3) -> void:
         tween.chain().tween_callback(puff.queue_free)
 
 func _switch_hero() -> void:
-    var selected := (player.hero_index+1)%3
+    var selected: int = int((player.hero_index+1)%3)
     player.select_hero(selected)
     _toast("Personnage : " + HERO_NAMES[selected],1.4)
 
