@@ -1,5 +1,12 @@
 # Shuriken School — Game
 
+## 🎮 Première mission jouable (web, v0.2)
+
+Ouvrir **[le prototype dans `web/`](web/index.html)** : recherche d'indices, trois ninjas, gardes, mission terminable, contrôles PC et tactiles. Le dossier `web/` peut être publié sur un hébergement statique HTTPS ; GitHub ne lance pas automatiquement le jeu depuis la vue de code.
+
+**Statut :** version solo jouable, assets vectoriels temporaires ; **coop Internet, jeu complet et fidélité visuelle 100 % non réalisés**. Voir le [guide du prototype](web/README.md).
+
+
 Projet de **jeu d'action-aventure en 2D**, PC et mobile, avec coopération en ligne prévue, fondé sur une règle de production : **respecter au maximum l'univers de la série animée Shuriken School (2006)**.
 
 > **Statut : conception + prototype technique.** Ce dépôt ne contient pas encore un jeu complet, des graphismes officiels, des missions terminées, ni un multijoueur Internet validé. La fidélité à 100 % est un **objectif**, pas une certification acquise.
