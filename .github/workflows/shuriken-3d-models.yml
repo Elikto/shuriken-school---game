@@ -51,6 +51,22 @@ jobs:
               print(hero+":",len(scene["meshes"]),"parts,",len(scene["skins"]),"skin,",len(scene["animations"]),"animation(s)")
           print("GLB_FORMAT_OK")
           PY
+      - name: Installer Godot 4.6.3 pour tester l'import
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.3
+          use-dotnet: false
+          include-templates: false
+      - name: Import Godot et test de rig 3D
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p game/assets/characters
+          cp dist/models/*.glb game/assets/characters/
+          godot --headless --path game --editor --import --quit 2>&1 | tee godot-glb-import.log
+          if grep -E 'SCRIPT ERROR|Parser Error|Parse Error|ERROR: Import' godot-glb-import.log; then exit 1; fi
+          godot --headless --path game --script res://tests/glb_smoke.gd 2>&1 | tee godot-glb-smoke.log
+          if grep -E 'SCRIPT ERROR|Parser Error|Parse Error|FAIL:' godot-glb-smoke.log; then exit 1; fi
       - name: Publier les GLB sous forme d'artefact
         uses: actions/upload-artifact@v4
         with:
