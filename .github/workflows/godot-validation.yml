@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: shuriken-ci-${{ github.ref }}
@@ -67,6 +68,22 @@ jobs:
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
+      - name: Récupérer les modèles Blender vérifiés
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          run_id="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow shuriken-3d-models.yml --branch main --limit 15 --json databaseId,conclusion --jq '.[] | select(.conclusion == "success") | .databaseId' | head -n 1)"
+          if [ -n "$run_id" ]; then
+            mkdir -p game/assets/characters
+            gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name Shuriken-Heros-Blender-GLB --dir game/assets/characters
+            for hero in eizan okuni jimmy; do test -s "game/assets/characters/$hero.glb"; done
+            echo "RIGGED_MODELS_SOURCE=$run_id" >> "$GITHUB_ENV"
+            echo "Downloaded 3 Blender GLB models from run $run_id"
+          else
+            echo "No verified Blender model artifact, keeping procedural character fallback."
+          fi
       - uses: chickensoft-games/setup-godot@v2
         with:
           version: 4.6.3
@@ -77,6 +94,10 @@ jobs:
         run: |
           mkdir -p dist
           godot --headless --path game --editor --import --quit
+          if test -f game/assets/characters/eizan.glb; then
+            godot --headless --path game --script res://tests/glb_smoke.gd
+          fi
+          godot --headless --path game --quit-after 3
           godot --headless --path game --export-release "Windows Desktop" ../dist/ShurikenSchool3D.exe
           ls -lah dist
           test -s dist/ShurikenSchool3D.exe
@@ -96,6 +117,22 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
+      - name: Récupérer les modèles Blender vérifiés
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          run_id="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow shuriken-3d-models.yml --branch main --limit 15 --json databaseId,conclusion --jq '.[] | select(.conclusion == "success") | .databaseId' | head -n 1)"
+          if [ -n "$run_id" ]; then
+            mkdir -p game/assets/characters
+            gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name Shuriken-Heros-Blender-GLB --dir game/assets/characters
+            for hero in eizan okuni jimmy; do test -s "game/assets/characters/$hero.glb"; done
+            echo "RIGGED_MODELS_SOURCE=$run_id" >> "$GITHUB_ENV"
+            echo "Downloaded 3 Blender GLB models from run $run_id"
+          else
+            echo "No verified Blender model artifact, keeping procedural character fallback."
+          fi
       - uses: chickensoft-games/setup-godot@v2
         with:
           version: 4.6.3
@@ -106,6 +143,9 @@ jobs:
       - name: Générer un screenshot depuis la scène réelle
         run: |
           godot --headless --path game --editor --import --quit
+          if test -f game/assets/characters/eizan.glb; then
+            godot --headless --path game --script res://tests/glb_smoke.gd
+          fi
           xvfb-run -a -s '-screen 0 1280x720x24' env LIBGL_ALWAYS_SOFTWARE=1 godot --path game --rendering-driver opengl3 --script res://tests/capture.gd
           test -s game/preview.png
       - name: Publier l'aperçu PNG
