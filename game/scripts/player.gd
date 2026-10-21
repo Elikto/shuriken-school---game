@@ -7,6 +7,7 @@ signal request_interact
 signal died
 
 const Art = preload("res://scripts/art.gd")
+const HeroModels = preload("res://scripts/hero_models.gd")
 const Animator = preload("res://scripts/character_animator.gd")
 const RUN_SPEED := 8.0
 const JUMP_SPEED := 10.0
@@ -87,7 +88,7 @@ func select_hero(index: int) -> void:
 func _rebuild_character() -> void:
     for n in visual.get_children():
         n.queue_free()
-    character_rig = Art.ninja(visual, hero_index)
+    character_rig = HeroModels.create(visual, hero_index)
     animation_state = Animator.STATE_IDLE
 
 func _physics_process(delta: float) -> void:
