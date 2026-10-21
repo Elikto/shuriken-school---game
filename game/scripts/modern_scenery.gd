@@ -124,7 +124,7 @@ static func _shrub(root: Node3D, where: Vector3, seed: int) -> void:
     var s := Node3D.new()
     s.position = where
     root.add_child(s)
-    var c := ["#508e6a","#66ad71","#8bb96f"][seed%3]
+    var c: String = ["#508e6a","#66ad71","#8bb96f"][seed%3]
     for k in range(4):
         var angle := TAU*float(k)/4.0
         Art.ball(s,0.8,c,Vector3(cos(angle)*0.7,0.6,sin(angle)*0.7),Vector3(1,0.7,1))
