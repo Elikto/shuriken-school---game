@@ -34,8 +34,37 @@
 .plan-timing.forecast{border-color:#79704f;background:#282c3b}
 .plan-timing small{display:block;color:#a9bed7;font-size:9px;font-weight:800;line-height:1.5;letter-spacing:.4px;margin-top:5px}
 .plan-timing b{display:block;font-size:12px;line-height:1.55;margin-top:5px}
+
+.visual-panel,.trace-panel{margin-bottom:18px}
+.visual-empty{min-height:275px;border:1px dashed #3d526e;border-radius:12px;background:#101d31;color:#a9bdd7;display:grid;place-items:center;text-align:center;padding:32px;line-height:1.7}
+.visual-compare{position:relative;overflow:hidden;border:1px solid #405e7d;border-radius:12px;background:#0a1322;aspect-ratio:16/9;max-height:580px}
+.visual-compare img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.visual-divider{position:absolute;top:0;bottom:0;width:2px;background:var(--gold);box-shadow:0 0 13px #000a;pointer-events:none}
+.visual-divider::after{content:"↔";display:grid;place-items:center;font-size:22px;color:#19243a;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);height:42px;width:42px;border-radius:50%;background:var(--gold);border:3px solid #faf1d0}
+.visual-corner{position:absolute;top:14px;background:#0c192ac9;border:1px solid #647693;border-radius:6px;padding:7px 9px;color:#f4f5ff;font-size:11px;font-weight:800}.visual-corner.before{left:14px}.visual-corner.after{right:14px}
+.visual-slider-label{display:block;color:#becde0;font-size:11px;margin:12px 0 9px}
+#compare-range{width:100%;accent-color:var(--gold);cursor:ew-resize}
+.visual-info{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:11px;color:#a5b9d6;margin:14px 0}
+.visual-info a{color:var(--mint);font-weight:800}
+.visual-gallery{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px;margin-top:18px}
+.preview-thumb{border:1px solid #405777;background:#162740;border-radius:9px;padding:7px;overflow:hidden;min-width:0;text-align:left}
+.preview-thumb.selected{border-color:var(--gold);box-shadow:0 0 0 1px #eac6796b}
+.preview-thumb:hover{border-color:#a0bacf}
+.preview-thumb img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:5px;background:#0d1c33;display:block}
+.preview-thumb span{font-size:10px;color:#b5c9de;display:block;margin-top:8px;overflow-wrap:anywhere}
+.trace-console{border:1px solid #425674;background:#070d19;border-radius:11px;overflow:hidden}
+.trace-console .term-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.trace-legends{font:10px 'DM Sans',sans-serif;color:#c0cdd9}
+.trace-lines{padding:15px;min-height:230px;max-height:520px;overflow-y:auto;font:11px/1.55 Consolas,monospace}
+.trace-line{display:grid;grid-template-columns:173px 54px minmax(0,1fr) 18px;align-items:start;gap:8px;padding:5px 0;border-bottom:1px solid #1d2b40}
+.trace-line:last-child{border-bottom:0}
+.trace-line time{font-size:10px;color:#7c9bbd;font-variant-numeric:tabular-nums;white-space:nowrap}
+.trace-type{font-weight:800;letter-spacing:.8px;color:#8cbdff;font-size:10px}.trace-line.command .trace-type{color:#e8c77e}.trace-line.code .trace-type{color:#7de9bd}
+.trace-msg{color:#d4e0ef;overflow-wrap:anywhere;white-space:pre-wrap}.trace-line.code .trace-msg{color:#a8ddb9}
+.trace-line a{color:var(--mint);font-size:14px}
+@media(max-width:780px){.visual-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.trace-line{grid-template-columns:1fr minmax(0,2fr) 18px;gap:4px}.trace-line time{grid-column:1;white-space:normal}.trace-line .trace-type{grid-column:1;grid-row:2}.trace-line .trace-msg{grid-column:2;grid-row:1 / span 2}.trace-line a{grid-column:3;grid-row:1}.trace-lines{padding:11px}.trace-console .term-top{font-size:9px}}
 </style></head>
-<body><div class="app"><aside><a href="#home" class="logo"><span>✦</span><div>SHURIKEN<small>SCHOOL / LAB</small></div></a><div class="group">PROJET</div><nav><a href="#home">◈ Vue d'ensemble</a><a href="#pipeline">▣ Travail en cours</a><a href="#journal">☷ Journal</a><a href="#history">⌁ Historique</a><a href="#issues-section">☑ Roadmap</a></nav><div class="group">RESSOURCES</div><nav class="links-nav"><a href="https://github.com/Elikto/shuriken-school---game" target="_blank">↗ Dépôt GitHub</a><a href="https://github.com/Elikto/shuriken-school---game/actions" target="_blank">↗ Tests Godot</a><a href="https://github.com/Elikto/shuriken-school---game/issues" target="_blank">↗ Tickets</a></nav><div class="aside-status"><span class="dot" id="connection-dot"></span><b id="connection-label">Connexion à GitHub…</b><p>Lecture seule. Aucun accès à ton PC ou à tes agents locaux.</p></div></aside>
+<body><div class="app"><aside><a href="#home" class="logo"><span>✦</span><div>SHURIKEN<small>SCHOOL / LAB</small></div></a><div class="group">PROJET</div><nav><a href="#home">◈ Vue d'ensemble</a><a href="#pipeline">▣ Travail en cours</a><a href="#apercu-visuel">◉ Aperçu 3D</a><a href="#terminal-direct">⌘ Terminal</a><a href="#journal">☷ Journal</a><a href="#history">⌁ Historique</a><a href="#issues-section">☑ Roadmap</a></nav><div class="group">RESSOURCES</div><nav class="links-nav"><a href="https://github.com/Elikto/shuriken-school---game" target="_blank">↗ Dépôt GitHub</a><a href="https://github.com/Elikto/shuriken-school---game/actions" target="_blank">↗ Tests Godot</a><a href="https://github.com/Elikto/shuriken-school---game/issues" target="_blank">↗ Tickets</a></nav><div class="aside-status"><span class="dot" id="connection-dot"></span><b id="connection-label">Connexion à GitHub…</b><p>Lecture seule. Aucun accès à ton PC ou à tes agents locaux.</p></div></aside>
 <main id="home"><header class="top"><b>JOURNAL DE BORD / SHURIKEN SCHOOL</b><div class="right"><span class="badge"><span class="dot" id="live-dot"></span><span id="live-label">Synchronisation…</span></span><button type="button" id="refresh">↻ Actualiser</button></div></header>
 <section class="hero"><div><label>✦ DÉVELOPPEMENT 3D</label><h1>Shuriken School <em>en direct.</em></h1><p>Progression mesurée des compilations, actions réelles sur GitHub, derniers commits et tâches restantes. Comme le journal de bord Burnout, mais dédié exclusivement à Shuriken.</p><div class="tags"><span>GODOT 4.6</span><span>WINDOWS / ANDROID</span><span>3ÈME PERSONNE</span><span>HORDES & BOSS</span></div></div></section>
 <section class="stats"><div class="stat"><small>DERNIER WORKFLOW TECHNIQUE</small><strong id="state">—</strong><p id="run-number">Recherche…</p></div><div class="stat"><small>ÉTAPES CI TERMINÉES</small><strong id="steps-stat">— / —</strong><p>Tests Godot ou production Blender</p></div><div class="stat"><small>TICKETS OUVERTS</small><strong id="issues-stat">—</strong><p>Travaux encore suivis</p></div><div class="stat"><small>MISE À JOUR</small><strong id="synced">—</strong><p id="quota">Données publiques GitHub</p></div></section>
@@ -43,6 +72,34 @@
  <div class="heading"><div><div class="overline">SURVEILLANCE / EXÉCUTIONS VÉRIFIÉES</div><h2>Tâches en cours et dernières tâches terminées</h2></div><span class="chip" id="activity-count">Chargement…</span></div>
  <p class="note">État des véritables jobs Godot/Blender. Les agents ChatGPT hors GitHub ne sont pas visibles ici. La progression représente uniquement les étapes des tests ou builds.</p>
  <div id="activity-list" class="activity-list" aria-live="polite"><p class="note">Lecture des actions GitHub…</p></div>
+</section>
+
+<section class="card visual-panel" id="apercu-visuel">
+ <div class="heading"><div><div class="overline">GRAPHISMES / CAPTURES GODOT</div><h2>Aperçu visuel quasi direct</h2></div><span class="chip" id="preview-count">Recherche des captures…</span></div>
+ <p class="note">Vraies captures générées par le moteur Godot puis publiées automatiquement après la compilation. Comparaison de la version actuelle avec la précédente. Ce n'est pas une vidéo en direct ni une image IA.</p>
+ <div id="preview-empty" class="visual-empty">Recherche de la dernière capture réelle…</div>
+ <div id="preview-stage" hidden>
+   <div class="visual-compare">
+     <img id="visual-old" alt="Ancienne capture Godot" decoding="async">
+     <img id="visual-new" alt="Nouvelle capture Godot" decoding="async">
+     <span class="visual-divider" id="visual-cut" aria-hidden="true"></span>
+     <span id="visual-before-label" class="visual-corner before">Avant</span>
+     <span id="visual-after-label" class="visual-corner after">Après</span>
+   </div>
+   <label class="visual-slider-label" for="compare-range">Déplacer pour comparer les versions (avant / après)</label>
+   <input type="range" id="compare-range" min="0" max="100" step="1" value="60" aria-label="Portion visible de la capture récente">
+   <div class="visual-info"><span id="visual-meta">Informations sur la capture…</span><a id="visual-source" href="https://github.com/Elikto/shuriken-school---game/actions" target="_blank" rel="noopener noreferrer">Source GitHub ↗</a></div>
+   <div class="visual-gallery" id="preview-gallery" aria-label="Cinq captures Godot les plus récentes"></div>
+ </div>
+ <p class="note">Actualisation des images environ toutes les 75 secondes. Une nouvelle image n'apparaît qu'après une capture Godot réellement réussie et publiée.</p>
+</section>
+<section class="card trace-panel" id="terminal-direct">
+ <div class="heading"><div><div class="overline">ACTIVITÉ VÉRIFIÉE / LIGNES HORODATÉES</div><h2>Terminal des actions et du code</h2></div><span class="chip" id="trace-status">Synchronisation…</span></div>
+ <div class="trace-console">
+   <div class="term-top">SHURIKEN • CI + CHANGEMENTS GIT <span class="trace-legends">CI = étape GitHub · CMD = commande déclarée · CODE = ligne du diff Git</span></div>
+   <div id="trace-lines" class="trace-lines" aria-live="polite"><p class="note">Lecture des opérations réelles…</p></div>
+ </div>
+ <p class="note">Les lignes sont horodatées à leur début d'étape ou à l'heure du commit. Les commandes sont celles déclarées dans les workflows : ce n'est pas une retransmission brute de la console. Les vraies sorties stdout/stderr restent consultables sur <a href="https://github.com/Elikto/shuriken-school---game/actions" target="_blank" rel="noopener noreferrer">GitHub Actions ↗</a>. Aucune commande locale, clé ou conversation privée n'est exposée.</p>
 </section>
 <section class="work-panel card" id="prochaines-taches">
  <div class="heading"><div><div class="overline">PRIORITÉ ABSOLUE / GRAPHISMES</div><h2>5 prochaines tâches planifiées</h2></div><span class="chip running">P0 — Graphismes</span></div>
@@ -214,4 +271,4 @@ async function build(){
 async function history(){const out=await Promise.all([fetchJson('/commits?per_page=10'),fetchJson('/issues?state=open&per_page=25')]);model.commits=Array.isArray(out[0])?out[0]:[];model.issues=Array.isArray(out[1])?out[1].filter(x=>!x.pull_request):[];renderHistory()}
 async function refresh(full){if(model.busy||document.hidden||Date.now()<model.limit)return;model.busy=true;$('refresh').disabled=true;try{if(full)await Promise.all([build(),history(),roadmap()]);else await build();model.last=Date.now();$('connection-dot').className='dot good';$('live-dot').className='dot good';$('connection-label').textContent='GitHub connecté';$('live-label').textContent='Données actualisées';$('synced').textContent=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});$('updated').textContent='Synchronisation : '+date(new Date().toISOString());$('quota').textContent=model.remaining!==null?'Quota API restant : '+model.remaining:'Source GitHub';}catch(e){$('connection-dot').className='dot bad';$('live-dot').className='dot bad';$('connection-label').textContent=e.message||'Connexion impossible';$('live-label').textContent='Données indisponibles';$('updated').textContent=e.message||'Erreur réseau';}finally{model.busy=false;$('refresh').disabled=false}}
 $('refresh').addEventListener('click',()=>refresh(true));$('details').addEventListener('click',()=>{$('modal').hidden=false;$('close').focus()});$('close').addEventListener('click',()=>{$('modal').hidden=true;$('details').focus()});$('modal').addEventListener('click',e=>{if(e.target===$('modal'))$('close').click()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('modal').hidden)$('close').click()});document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-model.last>240000)refresh(true)});setInterval(()=>refresh(false),240000);setInterval(()=>refresh(true),900000);refresh(true);
-</script></body></html>
+</script><script src="live.js" defer></script></body></html>
