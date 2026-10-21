@@ -110,6 +110,9 @@ def animate(rig, hero):
 def generate(hero, colors, output):
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete(use_global=False)
+    # Prevent actions from the previous hero leaking into the next GLB export.
+    for old_action in list(bpy.data.actions):
+        bpy.data.actions.remove(old_action)
     rig = new_rig()
     skin_mat, hair, suit, trim = [
         material(hero + "_" + label, value)
