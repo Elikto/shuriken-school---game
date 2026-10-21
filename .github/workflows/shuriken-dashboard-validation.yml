@@ -1,0 +1,37 @@
+name: Shuriken Journal - Validation et archive
+on:
+  push:
+    branches: [main]
+    paths:
+      - "dashboard/**"
+      - ".github/workflows/shuriken-dashboard-validation.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    name: Valider le site et publier une archive
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extraire et vérifier le JavaScript
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          page = Path("dashboard/index.html").read_text(encoding="utf-8")
+          assert '<html' in page and 'id="events"' in page and 'id="commits"' in page
+          scripts = re.findall(r'<script\b[^>]*>(.*?)</script>', page, flags=re.S | re.I)
+          assert len(scripts) == 1, "Un script embarqué attendu"
+          Path("/tmp/shuriken-dashboard.js").write_text(scripts[0], encoding="utf-8")
+          print("Site HTML vérifié, JavaScript extrait :", len(scripts[0]), "caractères")
+          PY
+          node --check /tmp/shuriken-dashboard.js
+      - name: Publier une version ouvrable dans le navigateur
+        uses: actions/upload-artifact@v4
+        with:
+          name: Shuriken-School-Journal-HTML
+          path: dashboard/
+          retention-days: 30
