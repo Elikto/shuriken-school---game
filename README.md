@@ -8,6 +8,12 @@ Cette itération remplace une partie des simples blocs par un dojo procédural p
 
 **Écart avec l'image de référence : important.** Le rendu est encore à base de maquettes procédurales : il faut des modèles 3D riggés, animations fidèles, textures et véritables décors optimisés, ainsi qu'une revue de la série. La capture GitHub Actions ne prouve pas la performance sur téléphone.
 
+## Nouvelle étape : Blender vers Godot (octobre 2026)
+
+Le nouveau pipeline `tools/blender/generate_heroes.py` produit des modèles GLB originaux pour Eizan, Okuni et Jimmy, avec squelette, matériaux et animation de repos. **L'import Blender → Godot a été validé automatiquement** sur les trois modèles dans [cette exécution](https://github.com/Elikto/shuriken-school---game/actions/runs/39541141875). Les nouveaux exports Windows **téléchargent les GLB Blender validés** et les incluent dans la compilation si l'artefact est disponible ; sinon le jeu conserve les anciens modèles procéduraux.
+
+La première compilation Windows avec cette intégration et une capture Godot réelle ont réussi : [run 39541343039](https://github.com/Elikto/shuriken-school---game/actions/runs/39541343039). Cela ne signifie pas que les modèles sont déjà fidèles à la série : leurs textures, silhouettes et animations de combat détaillées restent à produire. La création des GLB et l'import Godot constituent une avancée technique, pas la validation de la qualité artistique finale.
+
 ## Jouer sur Windows
 
 Ouvrez l'onglet [GitHub Actions](https://github.com/Elikto/shuriken-school---game/actions/workflows/godot-validation.yml), choisissez le [run Godot 4.6.3 vérifié](https://github.com/Elikto/shuriken-school---game/actions/runs/39527093280) ou le dernier test **vert**, puis téléchargez l'archive **ShurikenSchool3D-Windows**. Décompressez **EXE et PCK dans le même dossier** et lancez l'EXE. Ne lancez pas la source Godot si vous voulez seulement jouer.
