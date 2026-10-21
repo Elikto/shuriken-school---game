@@ -29,7 +29,7 @@ func _run() -> void:
             continue
         var scene: Resource = load(model_path)
         check(scene is PackedScene, hero + " GLB imports as PackedScene")
-        if not scene is PackedScene:
+        if not (scene is PackedScene):
             continue
         var rig: Node = (scene as PackedScene).instantiate()
         root.add_child(rig)
