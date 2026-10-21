@@ -1,7 +1,7 @@
 {
   "version": 2,
   "title": "Priorité absolue : graphismes jouables",
-  "estimate_note": "Fenêtres de début purement conditionnelles et indicatives. Elles supposent une capacité de travail continue jamais garantie. Seules les dates de début/fin réelles sont confirmées par des actions GitHub vérifiables. Une tâche suivante n'est pas affichée « en cours » tant qu'aucun agent ne l'a réellement commencée.",
+  "estimate_note": "VIS-01 démarrée : date réelle issue d'un commit de modification de modèle Blender. « En cours » indique un chantier entamé et non terminé, pas une IA active 24 h/24. Les autres dates restent prévisionnelles et dépendent de la validation des tâches précédentes.",
   "updated_at": "2026-10-21",
   "tasks": [
     {
@@ -9,16 +9,19 @@
       "name": "Eizan : visage, coiffure et vraie silhouette 3D",
       "category": "Personnage",
       "priority": "P0",
-      "status": "planned",
+      "status": "in_progress",
       "estimate_min_days": 5,
       "estimate_max_days": 12,
       "description": "Améliorer le modèle riggé, proportions, costume noir et bleu, expression et validation en capture Godot.",
       "issue": 1,
       "start_trigger": "next_hourly_development_slot",
       "depends_on": null,
-      "actual_start_at": null,
+      "actual_start_at": "2026-10-21T04:33:44Z",
       "actual_finish_at": null,
-      "evidence": []
+      "evidence": [
+        "https://github.com/Elikto/shuriken-school---game/commit/784b7a53b793f535a61ab6856146a59a9f9e40f8"
+      ],
+      "note": "La tâche VIS-01 a réellement commencé avec un incrément de géométrie Blender vérifiable. Statut = chantier engagé, pas activité continue 24h/24; validation Blender et capture Godot encore requises."
     },
     {
       "id": "VIS-02",

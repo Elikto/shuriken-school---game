@@ -46,7 +46,7 @@
 </section>
 <section class="work-panel card" id="prochaines-taches">
  <div class="heading"><div><div class="overline">PRIORITÉ ABSOLUE / GRAPHISMES</div><h2>5 prochaines tâches planifiées</h2></div><span class="chip running">P0 — Graphismes</span></div>
- <p class="note"><strong>Enchaînement visé :</strong> dès qu’une tâche est terminée et validée, passer à la suivante sans attente volontaire. Une heure prévue reste une estimation, pas une exécution confirmée. Le statut « en cours » exige une preuve réelle.</p>
+ <p class="note"><strong>Statut des chantiers :</strong> « En cours » = une première modification réelle est enregistrée, sans garantie qu'un agent soit actuellement en train de calculer. « Prévue » = pas encore de modification vérifiée. Dès qu'un chantier est terminé et validé, le suivant devient prioritaire.</p><p class="note"><strong>Enchaînement visé :</strong> dès qu’une tâche est terminée et validée, passer à la suivante sans attente volontaire. Une heure prévue reste une estimation, pas une exécution confirmée. Le statut « en cours » exige une preuve réelle.</p>
  <div class="planned-list" id="planned-list"><p class="note">Chargement de la feuille de route…</p></div>
  <p class="note" id="plan-note">Les tâches sont suivies dans le dépôt GitHub.</p>
 </section>
@@ -156,11 +156,11 @@ async function roadmap(){
          const issue=Number(t.issue)||2;
          const isDone=t.status==='completed'&&Boolean(t.actual_finish_at);
          const isActive=t.status==='in_progress'&&Boolean(t.actual_start_at);
-         const status=isDone?'Terminée — confirmée':isActive?'En cours — confirmé':t.status==='blocked'?'Bloquée':'Prévue — en attente';
-         const actualStart=t.actual_start_at&& (isDone||isActive)?'<div class="plan-timing"><small>HEURE DE DÉBUT RÉELLE</small><b>'+escapeHtml(plannedDate(Date.parse(t.actual_start_at)))+'</b></div>':'';
+         const status=isDone?'Terminée — confirmée':isActive?'En cours — chantier démarré':t.status==='blocked'?'Bloquée':'Prévue — en attente';
+         const actualStart=t.actual_start_at&& (isDone||isActive)?'<div class="plan-timing"><small>HEURE DE DÉBUT RÉELLE</small><b>'+escapeHtml(plannedDate(Date.parse(t.actual_start_at)))+'</b><small>Preuve : <a target="_blank" rel="noopener noreferrer" href="'+escapeHtml(link((t.evidence||[])[0]))+'">modification du modèle ↗</a></small></div>':'';
          const actualFinish=isDone?'<div class="plan-timing"><small>HEURE DE FIN RÉELLE</small><b>'+escapeHtml(plannedDate(Date.parse(t.actual_finish_at)))+'</b></div>':'';
          const forecast=i===0?plannedDate(earliest):(plannedDate(earliest)+' → '+plannedDate(latest));
-         const forecastNote=i===0?'Prochain créneau horaire visé, non confirmé':'Sous réserve que les travaux précédents avancent sans interruption';
+         const forecastNote=i===0?(isActive?'Ce créneau était une prévision ; voir le début réel confirmé ci-dessous':'Prochain créneau horaire visé, non confirmé'):'Sous réserve que les travaux précédents avancent sans interruption';
          const startGate=i===0?'Première tâche du cycle graphique':'Dès la validation de '+escapeHtml(t.depends_on||model.plan[i-1].id);
          const card='<article class="plan-card"><div class="plan-card-top"><span class="plan-number">'+String(i+1).padStart(2,'0')+'</span><span class="plan-priority">GRAPHISMES / '+escapeHtml(t.priority||'P0')+'</span></div>'+
            '<h3>'+escapeHtml(t.name)+'</h3><p>'+escapeHtml(t.description)+'</p>'+
