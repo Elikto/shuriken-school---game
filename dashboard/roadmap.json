@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "title": "Priorité absolue : graphismes jouables",
-  "estimate_note": "Estimations de travail actif, non dates de livraison. Nécessitent une production 3D qualifiée; non exécutées en permanence par ChatGPT.",
+  "estimate_note": "Fenêtres de début purement conditionnelles et indicatives. Elles supposent une capacité de travail continue jamais garantie. Seules les dates de début/fin réelles sont confirmées par des actions GitHub vérifiables. Une tâche suivante n'est pas affichée « en cours » tant qu'aucun agent ne l'a réellement commencée.",
   "updated_at": "2026-10-21",
   "tasks": [
     {
@@ -13,7 +13,12 @@
       "estimate_min_days": 5,
       "estimate_max_days": 12,
       "description": "Améliorer le modèle riggé, proportions, costume noir et bleu, expression et validation en capture Godot.",
-      "issue": 1
+      "issue": 1,
+      "start_trigger": "next_hourly_development_slot",
+      "depends_on": null,
+      "actual_start_at": null,
+      "actual_finish_at": null,
+      "evidence": []
     },
     {
       "id": "VIS-02",
@@ -24,7 +29,12 @@
       "estimate_min_days": 5,
       "estimate_max_days": 12,
       "description": "Produire un modèle distinct avec cheveux articulés, accessoires et animation sans rupture d'import.",
-      "issue": 2
+      "issue": 2,
+      "start_trigger": "on_verified_previous_task_completion",
+      "depends_on": "VIS-01",
+      "actual_start_at": null,
+      "actual_finish_at": null,
+      "evidence": []
     },
     {
       "id": "VIS-03",
@@ -35,7 +45,12 @@
       "estimate_min_days": 5,
       "estimate_max_days": 12,
       "description": "Travailler les volumes du visage, la tenue et la lecture de l'animation de glisse dans Godot.",
-      "issue": 2
+      "issue": 2,
+      "start_trigger": "on_verified_previous_task_completion",
+      "depends_on": "VIS-02",
+      "actual_start_at": null,
+      "actual_finish_at": null,
+      "evidence": []
     },
     {
       "id": "VIS-04",
@@ -46,7 +61,12 @@
       "estimate_min_days": 4,
       "estimate_max_days": 9,
       "description": "Améliorer cel shading, contours contrôlés et cohérence de la lumière sur les personnages et la scène.",
-      "issue": 2
+      "issue": 2,
+      "start_trigger": "on_verified_previous_task_completion",
+      "depends_on": "VIS-03",
+      "actual_start_at": null,
+      "actual_finish_at": null,
+      "evidence": []
     },
     {
       "id": "VIS-05",
@@ -57,7 +77,20 @@
       "estimate_min_days": 8,
       "estimate_max_days": 18,
       "description": "Transformer la cour procédurale en décors modulaires de qualité, optimisés et testés dans le moteur.",
-      "issue": 2
+      "issue": 2,
+      "start_trigger": "on_verified_previous_task_completion",
+      "depends_on": "VIS-04",
+      "actual_start_at": null,
+      "actual_finish_at": null,
+      "evidence": []
     }
-  ]
+  ],
+  "planning": {
+    "timezone": "Europe/Paris",
+    "first_planned_start_at": "2026-10-21T05:18:43Z",
+    "first_planned_start_basis": "Next hourly ChatGPT development slot, not evidence of an agent starting",
+    "handoff": "immediately_after_verified_previous_task_completion_when_an_agent_is_available",
+    "status_policy": "planned until independently confirmed; never infer in_progress from forecast clock",
+    "forecasting_assumption": "One estimated active workday treated as one elapsed calendar day solely to display conditional start windows. Not a delivery promise."
+  }
 }

@@ -7,6 +7,10 @@ on:
       - "game/**"
       - ".github/workflows/godot-validation.yml"
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Blender - Modeles 3D Shuriken"]
+    types: [completed]
+    branches: [main]
   schedule:
     # 4 verified checks daily; no continuously running paid runner.
     - cron: '17 */6 * * *'
@@ -21,6 +25,8 @@ concurrency:
 
 jobs:
   godot-validation:
+    # Automatic technical handoff; no recursion (Godot does not trigger Blender).
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     name: Import et démarrage Godot 4.6.3
     runs-on: ubuntu-latest
     timeout-minutes: 15

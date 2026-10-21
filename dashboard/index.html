@@ -29,6 +29,11 @@
 .plan-footer a{color:var(--mint);font-weight:700}
 .times-grid{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
 @media(max-width:720px){.planned-list{grid-template-columns:1fr}.activity-run{padding:13px}.activity-clock div,.times-grid>div{min-width:120px}}
+
+.plan-timing{background:#14233b;border:1px solid #334b6b;border-radius:8px;padding:10px 12px;margin:8px 0}
+.plan-timing.forecast{border-color:#79704f;background:#282c3b}
+.plan-timing small{display:block;color:#a9bed7;font-size:9px;font-weight:800;line-height:1.5;letter-spacing:.4px;margin-top:5px}
+.plan-timing b{display:block;font-size:12px;line-height:1.55;margin-top:5px}
 </style></head>
 <body><div class="app"><aside><a href="#home" class="logo"><span>✦</span><div>SHURIKEN<small>SCHOOL / LAB</small></div></a><div class="group">PROJET</div><nav><a href="#home">◈ Vue d'ensemble</a><a href="#pipeline">▣ Travail en cours</a><a href="#journal">☷ Journal</a><a href="#history">⌁ Historique</a><a href="#issues-section">☑ Roadmap</a></nav><div class="group">RESSOURCES</div><nav class="links-nav"><a href="https://github.com/Elikto/shuriken-school---game" target="_blank">↗ Dépôt GitHub</a><a href="https://github.com/Elikto/shuriken-school---game/actions" target="_blank">↗ Tests Godot</a><a href="https://github.com/Elikto/shuriken-school---game/issues" target="_blank">↗ Tickets</a></nav><div class="aside-status"><span class="dot" id="connection-dot"></span><b id="connection-label">Connexion à GitHub…</b><p>Lecture seule. Aucun accès à ton PC ou à tes agents locaux.</p></div></aside>
 <main id="home"><header class="top"><b>JOURNAL DE BORD / SHURIKEN SCHOOL</b><div class="right"><span class="badge"><span class="dot" id="live-dot"></span><span id="live-label">Synchronisation…</span></span><button type="button" id="refresh">↻ Actualiser</button></div></header>
@@ -41,7 +46,7 @@
 </section>
 <section class="work-panel card" id="prochaines-taches">
  <div class="heading"><div><div class="overline">PRIORITÉ ABSOLUE / GRAPHISMES</div><h2>5 prochaines tâches planifiées</h2></div><span class="chip running">P0 — Graphismes</span></div>
- <p class="note">Ordre de réalisation prévu, non une file de jobs déjà démarrés. Les estimations indiquent des <strong>jours de travail actif</strong>, pas une date de livraison ni une promesse de fonctionnement continu des IA.</p>
+ <p class="note"><strong>Enchaînement visé :</strong> dès qu’une tâche est terminée et validée, passer à la suivante sans attente volontaire. Une heure prévue reste une estimation, pas une exécution confirmée. Le statut « en cours » exige une preuve réelle.</p>
  <div class="planned-list" id="planned-list"><p class="note">Chargement de la feuille de route…</p></div>
  <p class="note" id="plan-note">Les tâches sont suivies dans le dépôt GitHub.</p>
 </section>
@@ -138,14 +143,43 @@ async function roadmap(){
       const data=await response.json();
       if(!Array.isArray(data.tasks)||data.tasks.length<5)throw Error('Cinq tâches attendues');
       model.plan=data.tasks.slice(0,5);
+      const config=data.planning||{};
+      const baseline=Date.parse(config.first_planned_start_at||'');
+      let earliest=baseline,latest=baseline;
+      const paris=new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris',day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      function plannedDate(ms){
+         return Number.isFinite(ms)?paris.format(new Date(ms)):'Date non disponible';
+      }
+      const interval=(24*60*60*1000);
       $('planned-list').innerHTML=model.plan.map((t,i)=>{
-         const estimate=String(t.estimate_min_days)+' à '+String(t.estimate_max_days)+' jours de travail';
+         const estimate=String(t.estimate_min_days)+' à '+String(t.estimate_max_days)+' jours de travail actif';
          const issue=Number(t.issue)||2;
-         return '<article class="plan-card"><div class="plan-card-top"><span class="plan-number">'+String(i+1).padStart(2,'0')+'</span><span class="plan-priority">GRAPHISMES / '+escapeHtml(t.priority||'P0')+'</span></div>'+
-         '<h3>'+escapeHtml(t.name)+'</h3><p>'+escapeHtml(t.description)+'</p><div class="plan-estimate"><small>ESTIMATION DE TRAVAIL ACTIF</small><b>'+escapeHtml(estimate)+'</b></div>'+
-         '<div class="plan-footer"><span>'+escapeHtml(t.status==='in_progress'?'En cours (plan)':'Prévue — non commencée')+'</span><a href="'+escapeHtml(REPO+'/issues/'+issue)+'" target="_blank" rel="noopener noreferrer">Ticket #'+issue+' ↗</a></div></article>';
+         const isDone=t.status==='completed'&&Boolean(t.actual_finish_at);
+         const isActive=t.status==='in_progress'&&Boolean(t.actual_start_at);
+         const status=isDone?'Terminée — confirmée':isActive?'En cours — confirmé':t.status==='blocked'?'Bloquée':'Prévue — en attente';
+         const actualStart=t.actual_start_at&& (isDone||isActive)?'<div class="plan-timing"><small>HEURE DE DÉBUT RÉELLE</small><b>'+escapeHtml(plannedDate(Date.parse(t.actual_start_at)))+'</b></div>':'';
+         const actualFinish=isDone?'<div class="plan-timing"><small>HEURE DE FIN RÉELLE</small><b>'+escapeHtml(plannedDate(Date.parse(t.actual_finish_at)))+'</b></div>':'';
+         const forecast=i===0?plannedDate(earliest):(plannedDate(earliest)+' → '+plannedDate(latest));
+         const forecastNote=i===0?'Prochain créneau horaire visé, non confirmé':'Sous réserve que les travaux précédents avancent sans interruption';
+         const startGate=i===0?'Première tâche du cycle graphique':'Dès la validation de '+escapeHtml(t.depends_on||model.plan[i-1].id);
+         const card='<article class="plan-card"><div class="plan-card-top"><span class="plan-number">'+String(i+1).padStart(2,'0')+'</span><span class="plan-priority">GRAPHISMES / '+escapeHtml(t.priority||'P0')+'</span></div>'+
+           '<h3>'+escapeHtml(t.name)+'</h3><p>'+escapeHtml(t.description)+'</p>'+
+           '<div class="plan-timing forecast"><small>DÉBUT PRÉVU — HEURE DE PARIS</small><b>'+escapeHtml(forecast)+'</b><small>'+escapeHtml(forecastNote)+'</small></div>'+
+           '<div class="plan-timing"><small>ENCHAÎNEMENT</small><b>'+startGate+'</b></div>'+
+           actualStart+actualFinish+
+           '<div class="plan-estimate"><small>ESTIMATION DE TRAVAIL ACTIF</small><b>'+escapeHtml(estimate)+'</b></div>'+
+           '<div class="plan-footer"><span>'+escapeHtml(status)+'</span><a href="'+escapeHtml(REPO+'/issues/'+issue)+'" target="_blank" rel="noopener noreferrer">Ticket #'+issue+' ↗</a></div></article>';
+         if(isDone){
+            const after=Date.parse(t.actual_finish_at);
+            earliest=Number.isFinite(after)?after:earliest;
+            latest=earliest;
+         }else{
+            earliest+=Number(t.estimate_min_days)*interval;
+            latest+=Number(t.estimate_max_days)*interval;
+         }
+         return card;
       }).join('');
-      $('plan-note').textContent=data.estimate_note||'Estimations de travail actif — non garanties.';
+      $('plan-note').textContent=data.estimate_note||'Débuts prévus seulement, non garantis.';
     }catch(err){
       $('planned-list').textContent='La feuille de route ne peut pas être chargée : '+String(err.message||'erreur');
     }

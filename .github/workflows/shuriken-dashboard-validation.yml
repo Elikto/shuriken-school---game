@@ -26,6 +26,21 @@ jobs:
           scripts = re.findall(r'<script\b[^>]*>(.*?)</script>', page, flags=re.S | re.I)
           assert len(scripts) == 1, "Un script embarqué attendu"
           Path("/tmp/shuriken-dashboard.js").write_text(scripts[0], encoding="utf-8")
+          from datetime import datetime,timezone
+          import json
+          roadmap=json.loads(Path("dashboard/roadmap.json").read_text(encoding="utf-8"))
+          assert len(roadmap["tasks"])==5, "5 tasks required"
+          baseline=datetime.fromisoformat(roadmap["planning"]["first_planned_start_at"].replace("Z","+00:00"))
+          assert baseline.tzinfo is not None, "Projected start must have timezone"
+          for i, task in enumerate(roadmap["tasks"]):
+              assert task["estimate_min_days"]<=task["estimate_max_days"]
+              assert task["depends_on"] == (roadmap["tasks"][i-1]["id"] if i else None)
+              if task["status"]=="in_progress":
+                  assert task["actual_start_at"] and task.get("evidence"), "No fake active task"
+              if task["status"]=="completed":
+                  assert task["actual_start_at"] and task["actual_finish_at"] and task.get("evidence"), "No fake completed task"
+          assert 'DÉBUT PRÉVU' in page and 'HEURE DE FIN RÉELLE' in page
+          print("Planning vérifié :",baseline,"; dépendances et statuts cohérents")
           print("Site HTML vérifié, JavaScript extrait :", len(scripts[0]), "caractères")
           PY
           node --check /tmp/shuriken-dashboard.js
