@@ -55,7 +55,7 @@ func _ready() -> void:
     _rebuild_character()
     camera = Camera3D.new()
     camera.current = true
-    camera.fov = 63
+    camera.fov = 54
     camera.near = 0.2
     get_parent().call_deferred("add_child", camera)
     hit_points_changed.emit(health, max_health)
@@ -63,10 +63,10 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
         camera_yaw -= event.relative.x * camera_sensitivity
-        camera_pitch = clampf(camera_pitch - event.relative.y * camera_sensitivity, -0.9, 0.34)
+        camera_pitch = clampf(camera_pitch - event.relative.y * camera_sensitivity, -0.15, 0.78)
     if event is InputEventScreenDrag:
         camera_yaw -= event.relative.x * camera_sensitivity * 1.8
-        camera_pitch = clampf(camera_pitch - event.relative.y * camera_sensitivity * 1.8, -0.9, 0.34)
+        camera_pitch = clampf(camera_pitch - event.relative.y * camera_sensitivity * 1.8, -0.15, 0.78)
     if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
         Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
     elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
@@ -131,7 +131,24 @@ func _physics_process(delta: float) -> void:
         visual.position.y = sin(_time * 13.0) * 0.045 if heading.length() > 0.1 and is_on_floor() else 0.0
         visual.rotation.z = lerpf(visual.rotation.z, -0.19 if swing_time > 0.0 else 0.0, clampf(delta*15.0,0,1))
         visual.rotation.x = lerpf(visual.rotation.x, 0.15 if dash_timer > 0.0 else 0.0, clampf(delta*13.0,0,1))
+    _animate_character(heading.length(), delta)
     _update_camera(delta)
+
+func _animate_character(motion: float, delta: float) -> void:
+    if visual.get_child_count() == 0:
+        return
+    var rig: Node = visual.get_child(visual.get_child_count()-1)
+    if not is_instance_valid(rig):
+        return
+    var stride := sin(_time * (12.0 if dash_timer <= 0.0 else 19.0)) * clampf(motion / RUN_SPEED,0.0,1.0) * 0.52
+    for name in ["LegL","LegR","ArmL","ArmR"]:
+        var bone := rig.get_node_or_null(name) as Node3D
+        if bone == null:
+            continue
+        var sign := -1.0 if name.ends_with("L") else 1.0
+        if name.begins_with("Arm"):
+            sign *= -1.0
+        bone.rotation.x = lerpf(bone.rotation.x,stride*sign,clampf(delta*13.0,0,1))
 
 func _update_camera(delta: float) -> void:
     if camera == null or not is_instance_valid(camera) or not camera.is_inside_tree():
