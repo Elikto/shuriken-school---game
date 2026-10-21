@@ -11,9 +11,9 @@ const ArenaDecor = preload("res://scripts/arena_decor.gd")
 
 const WAVE_SIZES := [5, 8, 12] # Chapter 1, retained for tests and balancing.
 const CHAPTERS := [
-    {"title": "L'ÉCOLE SHURIKEN", "mission": "Rassemble trois rouleaux d'entraînement.", "waves": [5,8,12], "boss": "CHAMPION DU DOJO", "sky": "#8ecadf"},
-    {"title": "JARDINS DE TOKIROHAMA", "mission": "Rassemble les plans du jardin.", "waves": [7,10,13], "boss": "GARDIEN DU JARDIN", "sky": "#b6cfd0"},
-    {"title": "LE PORTAIL RIVAL", "mission": "Rassemble les indices du tournoi.", "waves": [9,12,15], "boss": "MAÎTRE DES ÉPREUVES", "sky": "#e8abb4"}
+    {"title": "L'ÉCOLE SHURIKEN", "mission": "Rassemble trois rouleaux d'entraînement.", "waves": [5,8,12], "boss": "CHAMPION DU DOJO", "sky": "#87b9cc"},
+    {"title": "JARDINS DE TOKIROHAMA", "mission": "Rassemble les plans du jardin.", "waves": [7,10,13], "boss": "GARDIEN DU JARDIN", "sky": "#90aaa0"},
+    {"title": "LE PORTAIL RIVAL", "mission": "Rassemble les indices du tournoi.", "waves": [9,12,15], "boss": "MAÎTRE DES ÉPREUVES", "sky": "#aa859f"}
 ]
 ## New dialogues below are ORIGINAL gameplay transitions, NOT lines copied from episodes.
 const MISSION_DIALOGUES := [
@@ -118,25 +118,25 @@ func _build_environment() -> void:
     add_child(worldenv)
     var env := Environment.new()
     env.background_mode = Environment.BG_COLOR
-    env.background_color = Color("#8ecadf")
+    env.background_color = Color("#87b9cc")
     env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
     env.ambient_light_color = Color("#f8e5c3")
-    env.ambient_light_energy = 0.85
+    env.ambient_light_energy = 0.42
     env.reflected_light_source = Environment.REFLECTION_SOURCE_DISABLED
-    env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+    env.tonemap_mode = Environment.TONE_MAPPER_LINEAR
     worldenv.environment = env
     sky_environment = env
     var sun := DirectionalLight3D.new()
     sun.rotation_degrees = Vector3(-48,-32,0)
     sun.light_color = Color("#fff4d3")
-    sun.light_energy = 1.3
+    sun.light_energy = 0.72
     sun.shadow_enabled = true
     sun.directional_shadow_max_distance = 70
     add_child(sun)
     var fill := DirectionalLight3D.new()
     fill.rotation_degrees = Vector3(-25,120,0)
     fill.light_color = Color("#b8d4ff")
-    fill.light_energy = 0.30
+    fill.light_energy = 0.16
     add_child(fill)
 
 func _solid(size: Vector3, color: String, point: Vector3, collision: bool = true) -> StaticBody3D:
@@ -154,8 +154,8 @@ func _solid(size: Vector3, color: String, point: Vector3, collision: bool = true
 
 func _build_level() -> void:
     # Wide courtyard, curved roof lines, lantern rows, framed duel area.
-    _solid(Vector3(70,0.8,70),"#d6c4ab",Vector3(0,-0.5,0))
-    _solid(Vector3(33,0.14,33),"#ebd7b1",Vector3(0,-0.03,0),false)
+    _solid(Vector3(70,0.8,70),"#9d937f",Vector3(0,-0.5,0))
+    _solid(Vector3(33,0.14,33),"#a99d86",Vector3(0,-0.03,0),false)
     for side in [-1,1]:
         _solid(Vector3(1.6,4.6,43),"#9e7b75",Vector3(side*22,2.1,0))
         _solid(Vector3(43,4.6,1.6),"#9e7b75",Vector3(0,2.1,side*22))
@@ -178,7 +178,7 @@ func _build_level() -> void:
     _torii(Vector3(0,0,19),0.78)
     # Decorative training standards / paths / garden.
     for i in range(7):
-        _solid(Vector3(2.1,0.07,1.15),"#fbefe0",Vector3(0,0.015,17.0-i*4.8),false)
+        _solid(Vector3(2.1,0.07,1.15),"#d2c2a4",Vector3(0,0.015,17.0-i*4.8),false)
     for i in range(14):
         var angle := TAU * float(i)/14.0
         _tree(Vector3(cos(angle)*28,0,sin(angle)*28),i)
@@ -636,7 +636,7 @@ func _build_interface() -> void:
     hud.add_child(top_panel)
     var stack := VBoxContainer.new()
     top_panel.add_child(stack)
-    var title := _label(stack,"SHURIKEN SCHOOL  •  ARENA 3D",20,GOLD)
+    var title := _label(stack,"SHURIKEN SCHOOL  •  CAMPAGNE 3D",20,GOLD)
     title.add_theme_color_override("font_shadow_color",Color.BLACK)
     health_bar = ProgressBar.new()
     health_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -686,14 +686,21 @@ func _build_interface() -> void:
     boss_stack.add_child(boss_bar)
     boss_panel.hide()
 
-    var key_tips := _label(hud,"WASD  MOUVEMENT    •    SOURIS DROITE  CAMÉRA    •    CLIC  ATTAQUE    •    ESPACE  SAUT    •    MAJ  ESQUIVE    •    F  TECHNIQUE    •    Q  HÉROS    •    E  COFFRE",13)
-    key_tips.anchor_top = 1
-    key_tips.anchor_bottom = 1
-    key_tips.offset_top = -41
-    key_tips.offset_bottom = -16
-    key_tips.offset_left = 24
-    key_tips.offset_right = 1240
-    _build_touch_buttons(hud)
+    if OS.has_feature("mobile"):
+        _build_touch_buttons(hud)
+    else:
+        var tips_panel := PanelContainer.new()
+        tips_panel.add_theme_stylebox_override("panel",_style_box(Color(0.055,0.10,0.19,0.85),12))
+        tips_panel.anchor_top = 1
+        tips_panel.anchor_bottom = 1
+        tips_panel.anchor_right = 1
+        tips_panel.offset_top = -79
+        tips_panel.offset_bottom = -16
+        tips_panel.offset_left = 20
+        tips_panel.offset_right = -20
+        hud.add_child(tips_panel)
+        var key_tips := _label(tips_panel,"WASD / FLÈCHES : BOUGER   •   SOURIS DROITE : CAMÉRA   •   CLIC : COMBO   •   F : TECHNIQUE   •   Q : HÉROS\nESPACE : SAUT / COURSE MURALE   •   MAJ : ESQUIVE   •   E : COFFRE   •   ÉCHAP : PAUSE",12,CREAM)
+        key_tips.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
     overlay = Control.new()
     overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

@@ -28,8 +28,8 @@ static func ball(parent: Node3D, radius: float, color: String, pos: Vector3 = Ve
     var mesh := SphereMesh.new()
     mesh.radius = radius
     mesh.height = radius * 2.0
-    mesh.radial_segments = 16
-    mesh.rings = 8
+    mesh.radial_segments = 24
+    mesh.rings = 12
     i.mesh = mesh
     i.material_override = mat(color)
     i.position = pos
@@ -56,28 +56,46 @@ static func _line(parent: Node3D, a: Vector3, b: Vector3, thickness: float, colo
     p.quaternion = Quaternion(Vector3.UP, diff.normalized())
 
 static func ninja(parent: Node3D, kind: int, opponent: bool = false, giant: bool = false) -> Node3D:
+    # Rounded, three-dimensional stylized mannequin. This is original temporary
+    # concept geometry, not an official character model or an episode likeness.
     var model := Node3D.new()
     parent.add_child(model)
-    var robe: String = ["#e8784b", "#775de0", "#32a9a3"][kind % 3]
+    var jacket: String = ["#c36b4f", "#6660a5", "#337d88"][kind%3]
+    var dark: String = ["#39445d", "#3a365e", "#254b55"][kind%3]
+    var hair: String = ["#3d3c4f", "#4d3148", "#44385a"][kind%3]
     if opponent:
-        robe = "#ae496c" if not giant else "#642c80"
-    var skin := "#f6bf93"
-    # Styled anonymous prototypes; no claim of accurate costume, face or proportions.
-    box(model, Vector3(0.68,0.84,0.42), robe, Vector3(0,1.12,0))
-    box(model, Vector3(0.74,0.12,0.47), "#f7d383", Vector3(0,0.90,0))
-    ball(model,0.35,skin,Vector3(0,1.9,0))
-    box(model,Vector3(0.73,0.20,0.59), "#253554" if not opponent else "#332241",Vector3(0,2.17,0))
+        jacket = ["#9a4a70", "#725480", "#886481"][kind%3]
+        dark = "#35334e"
+        hair = "#373349"
+    var skin := "#e4aa85"
+    # Smooth silhouette: rounded chest, hips, tapering lower garments.
+    ball(model,0.52,jacket,Vector3(0,1.30,0),Vector3(0.89,1.02,0.71))
+    ball(model,0.34,dark,Vector3(0,0.88,0),Vector3(1.0,0.66,0.88))
+    box(model,Vector3(0.72,0.12,0.49),"#d3b47a",Vector3(0,0.96,0))
+    ball(model,0.39,skin,Vector3(0,1.99,0),Vector3(1.02,1.10,0.89))
+    # Hairstyle caps, eyebrows and distinguishable eye highlights.
+    ball(model,0.40,hair,Vector3(0,2.21,0.06),Vector3(1.09,0.45,0.99))
     for side in [-1.0,1.0]:
-        ball(model,0.055,"#24283c",Vector3(side*0.15,1.93,-0.316))
-        _line(model,Vector3(side*0.46,1.46,0),Vector3(side*0.47,0.97,0),0.21,skin)
-        _line(model,Vector3(side*0.20,0.81,0),Vector3(side*0.20,0.20,0),0.24,"#253554")
-    if kind == 2 and not opponent:
-        box(model,Vector3(0.7,0.11,0.12),"#ded8f2",Vector3(0,0.16,-0.21))
+        ball(model,0.047,"#1e253c",Vector3(side*0.155,2.03,-0.346))
+        ball(model,0.018,"#fff5e0",Vector3(side*0.145,2.045,-0.39))
+        box(model,Vector3(0.15,0.025,0.035),hair,Vector3(side*0.155,2.14,-0.345),Vector3(0,0,side*-0.14))
+        ball(model,0.18,jacket,Vector3(side*0.49,1.52,0))
+        _line(model,Vector3(side*0.52,1.43,0),Vector3(side*0.62,0.94,0.02),0.18,jacket)
+        ball(model,0.12,skin,Vector3(side*0.62,0.86,0.0))
+        _line(model,Vector3(side*0.23,0.77,0),Vector3(side*0.26,0.26,0),0.27,dark)
+        ball(model,0.18,"#323a50",Vector3(side*0.26,0.19,-0.08),Vector3(1.15,0.56,1.32))
+    # Cloth neck scarf and tiny folded tail sway as the mannequin moves.
+    ball(model,0.17,"#eacb95",Vector3(0,1.68,0),Vector3(1.65,0.55,1.0))
+    box(model,Vector3(0.17,0.53,0.12),"#eacb95",Vector3(0.23,1.35,0.24),Vector3(0,0,-0.2))
+    if kind == 0 and not opponent:
+        box(model,Vector3(0.47,0.065,0.10),"#6d9e6e",Vector3(-0.40,0.96,-0.34),Vector3(0,-0.32,0))
     if kind == 1 and not opponent:
-        ball(model,0.17,"#292444",Vector3(0,2.33,0))
+        ball(model,0.20,hair,Vector3(0.0,2.53,0.09),Vector3(0.75,1.1,0.75))
+    if kind == 2 and not opponent:
+        box(model,Vector3(0.9,0.10,0.16),"#e1c0b5",Vector3(0,0.12,-0.20))
     if giant:
-        model.scale = Vector3(1.8,1.85,1.8)
-        ball(model,0.16,"#f9bd5b",Vector3(0,2.54,0))
+        model.scale = Vector3(1.65,1.72,1.65)
+        cylinder(model,0.43,0.20,"#dfbd73",Vector3(0,2.52,0))
     return model
 
 static func chest(parent: Node3D) -> Node3D:
