@@ -87,8 +87,8 @@ static func _moveable_limb(parent: Node3D, name: String, position_v: Vector3, co
     return limb
 
 static func ninja(parent: Node3D, kind: int, opponent: bool = false, giant: bool = false) -> Node3D:
-    # Blue and black costume palette inspired by the television's costume direction.
-    # Purely original procedural silhouettes: not a licensed model or animation.
+    # Original code-generated demonstration rig. Model proportions and costumes
+    # need episode-by-episode approval before they can be called canon-faithful.
     var model := Node3D.new()
     model.name = "CartoonNinja"
     parent.add_child(model)
@@ -102,50 +102,73 @@ static func ninja(parent: Node3D, kind: int, opponent: bool = false, giant: bool
     if kind == 2 and not opponent:
         skin = "#aa7556"
         hair = "#111621"
-    ball(model,0.44,suit,Vector3(0,1.28,0),Vector3(0.94,1.08,0.75))
-    ball(model,0.32,suit,Vector3(0,0.86,0),Vector3(1.05,0.63,0.95))
-    box(model,Vector3(0.88,0.16,0.52),blue,Vector3(0,0.97,0))
-    box(model,Vector3(0.2,0.46,0.10),blue,Vector3(0.22,0.77,0.29),Vector3(0,0,-0.21))
-    # Distinctive oversized cartoon heads, cheeks and brow.
-    ball(model,0.41,skin,Vector3(0,1.98,0),Vector3(1.10,1.08,0.90))
-    ball(model,0.40,hair,Vector3(0,2.23,0.065),Vector3(1.19,0.43,1.04))
-    for s in [-1.0,1.0]:
-        ball(model,0.063,"#151c2c",Vector3(s*0.16,2.025,-0.36),Vector3(0.9,1.2,0.45))
-        ball(model,0.020,"#ffffff",Vector3(s*0.155,2.05,-0.389))
-        box(model,Vector3(0.18,0.030,0.048),hair,Vector3(s*0.16,2.15,-0.356),Vector3(0,0,-s*0.1))
+
+    var torso := Node3D.new()
+    torso.name = "Torso"
+    torso.position = Vector3(0,1.21,0)
+    model.add_child(torso)
+    ball(torso,0.45,suit,Vector3(0,0.03,0),Vector3(0.96,1.0,0.77))
+    ball(torso,0.31,suit,Vector3(0,-0.35,0),Vector3(1.06,0.65,0.95))
+    box(torso,Vector3(0.87,0.15,0.54),blue,Vector3(0,-0.24,0))
+    box(torso,Vector3(0.18,0.42,0.10),blue,Vector3(0.2,-0.39,0.28),Vector3(0,0,-0.21))
+
+    var head := Node3D.new()
+    head.name = "Head"
+    head.position = Vector3(0,1.99,0)
+    model.add_child(head)
+    ball(head,0.41,skin,Vector3.ZERO,Vector3(1.10,1.09,0.91))
+    ball(head,0.41,hair,Vector3(0,0.25,0.065),Vector3(1.2,0.43,1.04))
+    var eyes := Node3D.new()
+    eyes.name = "Eyes"
+    head.add_child(eyes)
+    for side in [-1.0,1.0]:
+        ball(eyes,0.061,"#151c2c",Vector3(side*0.16,0.036,-0.358),Vector3(0.85,1.2,0.44))
+        ball(eyes,0.02,"#ffffff",Vector3(side*0.155,0.067,-0.387))
+        box(head,Vector3(0.18,0.031,0.047),hair,Vector3(side*0.16,0.16,-0.352),Vector3(0,0,-side*0.10))
     if not opponent and kind == 0:
-        # Eizan: straight dark fringe and a long, glowing-green practice ruler.
-        box(model,Vector3(0.80,0.18,0.12),hair,Vector3(0,2.26,-0.31))
-        box(model,Vector3(0.13,0.65,0.13),"#56c880",Vector3(0.65,0.96,-0.20),Vector3(0,0,0.50))
-        for n in range(3):
-            box(model,Vector3(0.09,0.015,0.025),"#d0ffd5",Vector3(0.70+float(n)*0.12,1.12+float(n)*0.12,-0.28),Vector3(0,0,0.5))
+        box(head,Vector3(0.81,0.19,0.12),hair,Vector3(0,0.27,-0.30))
     elif not opponent and kind == 1:
-        # Okuni: two rounded orange pigtails, blue cuffs and rope.
-        for s in [-1.0,1.0]:
-            ball(model,0.265,hair,Vector3(s*0.55,2.10,0.06),Vector3(0.93,0.9,0.96))
-            box(model,Vector3(0.12,0.09,0.14),blue,Vector3(s*0.43,2.12,0.06))
-        var rope := Node3D.new()
-        rope.name = "JumpRope"
-        model.add_child(rope)
-        for n in range(11):
-            var a := PI * float(n)/10.0
-            ball(rope,0.035,"#eee1c2",Vector3(cos(a)*0.73,0.63-sin(a)*0.52,-0.10))
+        for side in [-1.0,1.0]:
+            var pigtail := Node3D.new()
+            pigtail.name = "HairL" if side < 0 else "HairR"
+            pigtail.position = Vector3(side*0.43,0.13,0.06)
+            head.add_child(pigtail)
+            ball(pigtail,0.27,hair,Vector3(side*0.12,-0.01,0),Vector3(0.96,0.93,0.98))
+            box(pigtail,Vector3(0.13,0.09,0.14),blue,Vector3(0,0,0))
     elif not opponent and kind == 2:
-        # Jimmy: spiked hair and his skateboard.
         for i in range(5):
-            var tip := ball(model,0.22,hair,Vector3(float(i-2)*0.18,2.35+float(i%2)*0.10,0.11),Vector3(0.7,1.5,0.72))
-            tip.rotation.z = float(i-2)*0.30
-        box(model,Vector3(1.30,0.08,0.46),"#256cac",Vector3(0,0.08,0.09))
-        for s in [-1.0,1.0]:
-            ball(model,0.11,"#e8ae42",Vector3(s*0.46,0.05,0.36))
+            var tip := ball(head,0.22,hair,Vector3(float(i-2)*0.18,0.36+float(i%2)*0.10,0.11),Vector3(0.7,1.45,0.72))
+            tip.rotation.z = float(i-2)*0.3
     elif opponent:
-        # Anonymous original adversary, not a canon character.
-        var hat := cylinder(model,0.56,0.10,"#383045",Vector3(0,2.38,0))
+        var hat := cylinder(head,0.56,0.12,"#383045",Vector3(0,0.38,0))
         hat.scale.z = 1.22
+
     _moveable_limb(model,"ArmL",Vector3(-0.48,1.53,0),suit,blue,false)
-    _moveable_limb(model,"ArmR",Vector3(0.48,1.53,0),suit,blue,false)
+    var right_arm := _moveable_limb(model,"ArmR",Vector3(0.48,1.53,0),suit,blue,false)
     _moveable_limb(model,"LegL",Vector3(-0.22,0.83,0),suit,blue,true)
     _moveable_limb(model,"LegR",Vector3(0.22,0.83,0),suit,blue,true)
+    if not opponent and kind == 0:
+        # Ruler is parented to the hand pivot so it follows the attack.
+        box(right_arm,Vector3(0.13,0.72,0.12),"#56c880",Vector3(0,-0.53,-0.14),Vector3(0,0,0.38))
+        for n in range(3):
+            box(right_arm,Vector3(0.08,0.012,0.025),"#c8fad8",
+                Vector3(0.09+float(n)*0.05,-0.62+float(n)*0.1,-0.22),Vector3(0,0,0.38))
+    elif not opponent and kind == 1:
+        var rope := Node3D.new()
+        rope.name = "JumpRope"
+        right_arm.add_child(rope)
+        for n in range(17):
+            var angle := float(n)*PI/16.0
+            ball(rope,0.032,"#e3d0ac",
+                Vector3(cos(angle)*0.65,-0.64-sin(angle)*0.42,-0.12))
+    elif not opponent and kind == 2:
+        var board := Node3D.new()
+        board.name = "Board"
+        model.add_child(board)
+        box(board,Vector3(1.28,0.08,0.45),"#256cac",Vector3(0,0.09,0.06))
+        for side in [-1.0,1.0]:
+            ball(board,0.11,"#e8ae42",Vector3(side*0.46,0.045,0.32))
+
     if giant:
         model.scale = Vector3(1.6,1.65,1.6)
         cylinder(model,0.50,0.15,"#e7b75f",Vector3(0,2.56,0))

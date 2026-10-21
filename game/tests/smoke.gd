@@ -13,6 +13,10 @@ func check(ok: bool, label: String) -> void:
         failures += 1
         push_error("FAIL: "+label)
 
+func Animator_pose_skate(rig: Node3D) -> void:
+    var animator = load("res://scripts/character_animator.gd")
+    animator.pose(rig,2,&"skate",0.75,1.0,1.0)
+
 func _run() -> void:
     var profile_path := "user://smoke_campaign_profile.json"
     var base: Dictionary = Progress.defaults()
@@ -47,10 +51,21 @@ func _run() -> void:
     check(world.waiting_spawns == 5,"first wave requires 5 foes")
 
     world.player.select_hero(0)
+    check(world.player.character_rig.has_node("Torso") and world.player.character_rig.has_node("Head"),"articulated cartoon torso and head")
+    check(world.player.character_rig.has_node("ArmR") and world.player.character_rig.has_node("LegL"),"character arms and legs are independent pivots")
+    world.player._animate_character(1.0,0.14)
+    check(world.player.animation_state is StringName,"character animation state exposed for tests")
     world.player.perform_skill()
     check(world.player.smoke_timer > 0.0,"Eizan smoke special")
     world.player.select_hero(2)
     check(world.player.hero_index == 2 and world.player.smoke_timer == 0.0,"hero switch cancels concealment")
+    check(world.player.character_rig.has_node("Board"),"Jimmy has skateboard pivot")
+    var board = world.player.character_rig.get_node("Board")
+    Animator_pose_skate(world.player.character_rig)
+    check(absf(board.rotation.x)>0.001,"Jimmy skateboard tilts while skating")
+    world.player.select_hero(1)
+    check(world.player.character_rig.has_node("ArmR/JumpRope"),"Okuni rope is attached to her animated hand")
+    world.player.select_hero(2)
     world.player.perform_attack()
     check(world.player.combo_count == 1,"combo first hit")
     world.player.attack_timer = 0.0

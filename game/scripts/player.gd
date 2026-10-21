@@ -7,6 +7,7 @@ signal request_interact
 signal died
 
 const Art = preload("res://scripts/art.gd")
+const Animator = preload("res://scripts/character_animator.gd")
 const RUN_SPEED := 8.0
 const JUMP_SPEED := 10.0
 const GRAVITY := 23.0
@@ -27,6 +28,8 @@ var enable_eizan_wall_run := true # Wall-running by Eizan is stated in the Apple
 var wall_run_left := 0.0
 var smoke_timer := 0.0
 var visual: Node3D
+var character_rig: Node3D
+var animation_state: StringName = &"idle"
 var camera: Camera3D
 var camera_yaw := 0.0
 var camera_pitch := 0.20
@@ -84,7 +87,8 @@ func select_hero(index: int) -> void:
 func _rebuild_character() -> void:
     for n in visual.get_children():
         n.queue_free()
-    Art.ninja(visual, hero_index)
+    character_rig = Art.ninja(visual, hero_index)
+    animation_state = Animator.STATE_IDLE
 
 func _physics_process(delta: float) -> void:
     if health <= 0:
@@ -135,20 +139,21 @@ func _physics_process(delta: float) -> void:
     _update_camera(delta)
 
 func _animate_character(motion: float, delta: float) -> void:
-    if visual.get_child_count() == 0:
+    if not is_instance_valid(character_rig):
         return
-    var rig: Node = visual.get_child(visual.get_child_count()-1)
-    if not is_instance_valid(rig):
-        return
-    var stride := sin(_time * (12.0 if dash_timer <= 0.0 else 19.0)) * clampf(motion / RUN_SPEED,0.0,1.0) * 0.52
-    for name in ["LegL","LegR","ArmL","ArmR"]:
-        var bone := rig.get_node_or_null(name) as Node3D
-        if bone == null:
-            continue
-        var sign := -1.0 if name.ends_with("L") else 1.0
-        if name.begins_with("Arm"):
-            sign *= -1.0
-        bone.rotation.x = lerpf(bone.rotation.x,stride*sign,clampf(delta*13.0,0,1))
+    var intended := Animator.STATE_IDLE
+    if dash_timer > 0.0:
+        intended = Animator.STATE_DODGE
+    elif swing_time > 0.0:
+        intended = Animator.STATE_ATTACK
+    elif hero_index == 0 and not is_on_floor() and is_on_wall() and wall_run_left > 0.0:
+        intended = Animator.STATE_WALLRUN
+    elif not is_on_floor():
+        intended = Animator.STATE_JUMP if velocity.y > 0.0 else Animator.STATE_FALL
+    elif motion > 0.12:
+        intended = Animator.STATE_SKATE if hero_index == 2 else Animator.STATE_RUN
+    animation_state = intended
+    Animator.pose(character_rig,hero_index,intended,_time,delta,motion,combo_count)
 
 func _update_camera(delta: float) -> void:
     if camera == null or not is_instance_valid(camera) or not camera.is_inside_tree():
