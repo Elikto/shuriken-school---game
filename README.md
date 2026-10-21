@@ -6,7 +6,7 @@
 
 Ouvrir **[`game/project.godot`](game/project.godot)** dans Godot 4.6.3 pour lancer une arène 3D expérimentale, avec caméra arrière orbitale et déplacement libre, trois vagues d'ennemis, compétences de prototype, coffres, récompenses, puis boss final. Les touches et limitations sont indiquées dans [`game/README.md`](game/README.md).
 
-**À ne pas confondre avec un jeu terminé** : code fourni, mais la version n'a pas été exécutée/validée dans Godot lors de ce commit. La coopération en ligne PC/Android, la qualité « jeu commercial », les animations officielles, la reconstitution du dessin animé et les exports Windows/Android sont encore à faire. Les personnages sont représentés par des formes 3D originales provisoires sans modèles sous licence.
+**À ne pas confondre avec un jeu terminé** : le projet a été importé et lancé **en mode headless dans Godot 4.6.3** sur GitHub Actions ; les tests de gameplay ont réussi, et un export Windows a été généré. L'apparence visuelle, les performances et les commandes n'ont pas encore été validées manuellement sur un PC/téléphone. La coopération en ligne PC/Android, la qualité « jeu commercial », les animations officielles, la reconstitution du dessin animé et l'export Android reste à faire. Un premier export Windows de démonstration est disponible ci-dessous. Les personnages sont représentés par des formes 3D originales provisoires sans modèles sous licence.
 
 ## Respect du dessin animé
 
@@ -16,6 +16,13 @@ Ouvrir **[`game/project.godot`](game/project.godot)** dans Godot 4.6.3 pour lanc
 - [Droits et fidélité](docs/FIDELITE_ET_DROITS.md).
 
 La course sur les murs et le nuage de fumée sont **confirmés pour Eizan au niveau du synopsis Apple TV France**. Leur implémentation actuelle est une interprétation technique à recaler image par image avec l'animation originale. Aucune réplique originale n'a été intégrée sans autorisation ni vérification.
+
+## 🎮 Télécharger et lancer la démo Windows
+
+- **[Télécharger la démo Windows compilée (GitHub Actions)](https://github.com/Elikto/shuriken-school---game/actions/runs/39521498783/artifacts/12311380278)**.
+- Le ZIP contient `ShurikenSchool3D.exe` et `ShurikenSchool3D.pck`. **Extraire les deux dans le même dossier**, puis double-cliquer sur l'EXE.
+- **[Voir les tests et l'export validés](https://github.com/Elikto/shuriken-school---game/actions/runs/39521498783)**. Le premier export compile, mais reste un aperçu de mécaniques avec modèles 3D temporaires.
+- Le ZIP est également fourni directement dans la conversation ChatGPT où il a été généré.
 
 ## Commandes PC
 
@@ -31,6 +38,7 @@ WASD / flèches = déplacement, clic droit + souris = caméra, clic gauche = att
 | Décor toon original | Prototypé, **non fidèle aux assets officiels** |
 | Mouvements + dialogues exacts dessin animé | Recherche épisode par épisode en attente |
 | Coop Internet PC/mobile | Non implémentée |
-| Exécutables Windows / APK Android | Non créés |
+| APK Android | Non créé |
+| Exécutable Windows | **Compilé sur GitHub Actions** : EXE + PCK dans une archive ZIP téléchargeable |
 
 Aucun agent local, aucune dépense cloud ni service extérieur n'a été lancé par ce dépôt.
