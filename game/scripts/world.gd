@@ -10,6 +10,7 @@ const Progress = preload("res://scripts/progress.gd")
 const ArenaDecor = preload("res://scripts/arena_decor.gd")
 const ModernScenery = preload("res://scripts/modern_scenery.gd")
 const MinimapScript = preload("res://scripts/minimap.gd")
+const ModernHUDScript = preload("res://scripts/modern_hud.gd")
 
 const WAVE_SIZES := [5, 8, 12] # Chapter 1, retained for tests and balancing.
 const CHAPTERS := [
@@ -705,18 +706,10 @@ func _build_interface() -> void:
     if OS.has_feature("mobile"):
         _build_touch_buttons(hud)
     else:
-        var tips_panel := PanelContainer.new()
-        tips_panel.add_theme_stylebox_override("panel",_style_box(Color(0.055,0.10,0.19,0.85),12))
-        tips_panel.anchor_top = 1
-        tips_panel.anchor_bottom = 1
-        tips_panel.anchor_right = 1
-        tips_panel.offset_top = -79
-        tips_panel.offset_bottom = -16
-        tips_panel.offset_left = 20
-        tips_panel.offset_right = -20
-        hud.add_child(tips_panel)
-        var key_tips := _label(tips_panel,"WASD / FLÈCHES : BOUGER   •   SOURIS DROITE : CAMÉRA   •   CLIC : COMBO   •   F : TECHNIQUE   •   Q : HÉROS\nESPACE : SAUT / COURSE MURALE   •   MAJ : ESQUIVE   •   E : COFFRE   •   ÉCHAP : PAUSE",12,CREAM)
-        key_tips.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+        var modern_ui := ModernHUDScript.new()
+        modern_ui.name = "HeroCardsAndActions"
+        modern_ui.world = self
+        hud.add_child(modern_ui)
 
     overlay = Control.new()
     overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

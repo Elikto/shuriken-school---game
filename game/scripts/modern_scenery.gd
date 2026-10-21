@@ -8,7 +8,7 @@ static func create(world: Node3D, chapter: int) -> Node3D:
     root.name = "ModernCartoonEnvironment"
     world.add_child(root)
     _courtyard_tiles(root, chapter)
-    _temple(root, Vector3(0, 0, -32), 16.0, 9.0, "#f5dfb5", "#cc6453", "#333e68")
+    _temple(root, Vector3(0, 0, -27), 16.0, 9.0, "#f5dfb5", "#cc6453", "#333e68")
     _temple(root, Vector3(-30, 0, -14), 11.0, 6.8, "#ead9b9", "#cc6a58", "#434673")
     _temple(root, Vector3(30, 0, -14), 11.0, 6.8, "#f5e3bd", "#bf584d", "#343e6a")
     _temple(root, Vector3(-30, 0, 19), 10.0, 5.6, "#ecddbe", "#bb665c", "#3e4870")
@@ -28,11 +28,11 @@ static func create(world: Node3D, chapter: int) -> Node3D:
     return root
 
 static func _courtyard_tiles(root: Node3D, chapter: int) -> void:
-    var tones := ["#d7bd97", "#eed2a4", "#e6c79a", "#dbc29c", "#edd7ad"]
+    var tones := ["#af9680", "#c1a688", "#b59a80", "#a88d79", "#c4ae91"]
     if chapter == 1:
-        tones = ["#b8b9a1", "#d1c5a4", "#c5c6ab", "#e1d0af", "#b5bda9"]
+        tones = ["#a2a994", "#c2b99f", "#abb3a2", "#c1bca6", "#a7b09e"]
     elif chapter == 2:
-        tones = ["#cdb3a1", "#e7cbb0", "#d9b9a2", "#e6ceb7", "#ccb8a7"]
+        tones = ["#ac9389", "#cfb3a1", "#bba094", "#c6ab9b", "#b1a097"]
     for x in range(-9,10):
         for z in range(-9,10):
             var tone: String = tones[posmod(x * 7 + z * 11 + (x*z)%3, tones.size())]
