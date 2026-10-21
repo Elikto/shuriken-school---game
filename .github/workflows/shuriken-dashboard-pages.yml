@@ -28,6 +28,8 @@ jobs:
           test -s dashboard/README.md
           node -e "const fs=require('fs'); let s=fs.readFileSync('dashboard/index.html','utf8'); if(!s.includes('GitHub'))process.exit(1)"
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dashboard
