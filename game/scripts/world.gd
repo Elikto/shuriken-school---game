@@ -9,7 +9,7 @@ const ChestScene = preload("res://scripts/chest.gd")
 
 const WAVE_SIZES := [5, 8, 12]
 const HERO_NAMES := ["Eizan", "Okuni", "Jimmy B"]
-const HERO_SKILLS := ["Élan rapide", "Onde de corde", "Diversion skateboard"]
+const HERO_SKILLS := ["Nuage de fumée", "Onde de corde (prototype)", "Diversion (prototype)"]
 const INK := Color("#122039")
 const GOLD := Color("#ffe3a3")
 const CREAM := Color("#fff4de")
@@ -342,18 +342,30 @@ func _on_attacked(strength: int, reach: float, face_dir: Vector3) -> void:
                 e.hit(strength)
 
 func _on_skill(hero: int, center: Vector3) -> void:
-    var radius := 5.5 if hero == 1 else 4.0
-    var damage: int = [55,32,42][hero]
-    for e in foes.duplicate():
-        if is_instance_valid(e) and e.global_position.distance_to(center) <= radius:
-            e.hit(damage)
     if hero == 0:
-        player.dodge()
-    elif hero == 2:
-        for e in foes:
-            if is_instance_valid(e):
-                e.attack_timer = 2.0
+        player.activate_smoke()
+        _smoke_effect(center)
+    else:
+        var radius := 5.5 if hero == 1 else 4.0
+        var damage := 32 if hero == 1 else 42
+        for e in foes.duplicate():
+            if is_instance_valid(e) and e.global_position.distance_to(center) <= radius:
+                e.hit(damage)
+        if hero == 2:
+            for e in foes:
+                if is_instance_valid(e):
+                    e.attack_timer = 2.0
     _toast(HERO_NAMES[hero] + " : " + HERO_SKILLS[hero],2.4)
+
+func _smoke_effect(center: Vector3) -> void:
+    for i in range(14):
+        var angle := float(i) / 14.0 * TAU
+        var puff := Art.ball(self, 0.4, "#e8f4f4", center + Vector3(cos(angle)*0.5,1.1,sin(angle)*0.5))
+        var tween := create_tween()
+        tween.set_parallel(true)
+        tween.tween_property(puff, "position", puff.position + Vector3(cos(angle)*2.2, 1.7, sin(angle)*2.2), 0.85)
+        tween.tween_property(puff, "scale", Vector3.ZERO, 0.85)
+        tween.chain().tween_callback(puff.queue_free)
 
 func _switch_hero() -> void:
     var selected := (player.hero_index+1)%3
@@ -589,7 +601,7 @@ func _build_touch_buttons(parent: Control) -> void:
 
 func _show_menu() -> void:
     popup_title.text = "SHURIKEN SCHOOL"
-    popup_body.text = "Combat 3D à la troisième personne : trois vagues, coffres, puis un boss.\nPersonnages et décors originaux provisoires, non officiels.\nWall-run expérimental : fidélité au dessin animé à confirmer."
+    popup_body.text = "Combat 3D à la troisième personne : trois vagues, coffres, puis un boss.\nPersonnages et décors originaux provisoires, non officiels.\nEizan peut courir sur les murs et disparaître en fumée (version de jeu provisoire)."
     play_button.text = "COMMENCER L'ENTRAÎNEMENT"
     hud.hide()
     overlay.show()

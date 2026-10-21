@@ -12,7 +12,7 @@ Jouer une aventure 3D dans l'univers de Shuriken School : Eizan, Okuni et Jimmy 
 
 ### Mouvement
 
-Courses, saut, esquive, attaques, changement de personnage en solo. Le code inclut un **essai de wall-run**. Il est explicitement classé « ADAPTATION PROTOTYPE / À VÉRIFIER » jusqu'à contrôle épisode+timecode, de même que double saut, glissade, escalade, utilisation des accessoires et actions spéciales. Toute action effectivement prouvée dans la série sera ajoutée à la liste des capacités canoniques ; la totalité ne peut être garantie avant examen de toutes les scènes.
+Courses, saut, esquive, attaques, changement de personnage en solo. La course sur les murs et la disparition dans un nuage de fumée **sont attestées pour Eizan par le synopsis Apple TV France**. L'implémentation technique du wall-run et la durée d'invisibilité restent des adaptations à ajuster grâce aux épisodes/timecodes, de même que double saut, glissade, escalade, utilisation des accessoires et actions spéciales. Toute action effectivement prouvée dans la série sera ajoutée à la liste des capacités canoniques ; la totalité ne peut être garantie avant examen de toutes les scènes.
 
 ### Combats
 

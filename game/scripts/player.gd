@@ -23,8 +23,9 @@ var dash_invincible := 0.0
 var facing := Vector3(0,0,-1)
 var touch_move := Vector2.ZERO
 var touch_jump := false
-var allow_wall_run_experimental := true # ADAPTATION: NOT verified as canonical in episodes.
+var enable_eizan_wall_run := true # Wall-running by Eizan is stated in the Apple TV France series synopsis.
 var wall_run_left := 0.0
+var smoke_timer := 0.0
 var visual: Node3D
 var camera: Camera3D
 var camera_yaw := 0.0
@@ -59,6 +60,9 @@ func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
         camera_yaw -= event.relative.x * camera_sensitivity
         camera_pitch = clampf(camera_pitch - event.relative.y * camera_sensitivity, -0.9, 0.34)
+    if event is InputEventScreenDrag:
+        camera_yaw -= event.relative.x * camera_sensitivity * 1.8
+        camera_pitch = clampf(camera_pitch - event.relative.y * camera_sensitivity * 1.8, -0.9, 0.34)
     if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
         Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
     elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
@@ -81,6 +85,8 @@ func _physics_process(delta: float) -> void:
     skill_timer = maxf(0, skill_timer - delta)
     dash_timer = maxf(0, dash_timer - delta)
     dash_invincible = maxf(0, dash_invincible - delta)
+    smoke_timer = maxf(0.0, smoke_timer - delta)
+    visual.visible = smoke_timer <= 0.0
     var axis := Input.get_vector("move_left", "move_right", "move_forward", "move_back") + touch_move
     axis = axis.limit_length(1.0)
     var heading := Vector3(axis.x, 0.0, axis.y).rotated(Vector3.UP, camera_yaw)
@@ -99,10 +105,9 @@ func _physics_process(delta: float) -> void:
             velocity.y = JUMP_SPEED
     else:
         velocity.y -= GRAVITY * delta
-        # Wall-run only as clearly labelled experimentation, NOT verified canon.
-        # Only applies to World static walls, when the character is airborne, moving
-        # sideways along a nearby wall, and not pressing a wall head-on.
-        if allow_wall_run_experimental and wall_run_left > 0.0 and Input.is_action_pressed("action_jump") and is_on_wall():
+        # Eizan running on walls is supported by the Apple TV France synopsis.
+        # This implementation is a gameplay interpretation, not scene-perfect animation.
+        if hero_index == 0 and enable_eizan_wall_run and wall_run_left > 0.0 and Input.is_action_pressed("action_jump") and is_on_wall():
             var normal := get_wall_normal()
             if absf(heading.dot(normal)) < 0.43 and heading.length() > 0.1:
                 velocity.y = maxf(velocity.y, -1.35)
@@ -132,6 +137,12 @@ func perform_attack() -> void:
         return
     attack_timer = ATTACK_COOLDOWN
     attacked.emit(19 if hero_index == 0 else 15, 2.75, facing)
+
+func activate_smoke() -> void:
+    # The synopsis mentions Eizan disappearing into smoke. 3 seconds is a game tuning choice.
+    smoke_timer = 3.0
+    dash_invincible = maxf(dash_invincible, 3.0)
+    visual.visible = false
 
 func perform_skill() -> void:
     if skill_timer > 0 or health <= 0:

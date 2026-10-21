@@ -15,7 +15,7 @@ Ouvrir **[`game/project.godot`](game/project.godot)** dans Godot 4.6.3 pour lanc
 - [Feuille de route 3D](docs/ROADMAP_3D.md).
 - [Droits et fidélité](docs/FIDELITE_ET_DROITS.md).
 
-Le **wall-run** est présent à titre de **test de gameplay non confirmé par la série**, activable/désactivable dans `game/scripts/player.gd`. Aucune réplique originale n'a été intégrée sans autorisation ni vérification.
+La course sur les murs et le nuage de fumée sont **confirmés pour Eizan au niveau du synopsis Apple TV France**. Leur implémentation actuelle est une interprétation technique à recaler image par image avec l'animation originale. Aucune réplique originale n'a été intégrée sans autorisation ni vérification.
 
 ## Commandes PC
 

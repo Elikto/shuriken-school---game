@@ -5,7 +5,7 @@ signal contact_attack(amount: int)
 
 const Art = preload("res://scripts/art.gd")
 
-var target: CharacterBody3D
+var target
 var boss := false
 var hp := 44
 var max_hp := 44
@@ -47,6 +47,12 @@ func _physics_process(delta: float) -> void:
     if not alive or not is_instance_valid(target):
         return
     age += delta
+    if target.smoke_timer > 0.0:
+        velocity.x = move_toward(velocity.x, 0.0, 18.0 * delta)
+        velocity.z = move_toward(velocity.z, 0.0, 18.0 * delta)
+        velocity.y = velocity.y - 25.0 * delta if not is_on_floor() else -0.1
+        move_and_slide()
+        return
     attack_timer = maxf(0,attack_timer-delta)
     charge_timer = maxf(0,charge_timer-delta)
     var to_player := target.global_position - global_position

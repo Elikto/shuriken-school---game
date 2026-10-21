@@ -10,7 +10,7 @@
 - Coffre à ouvrir entre les vagues (pièces et récupération de santé).
 - Arène 3D procédurale inspirée de codes visuels de l'animation (lumière, lanternes, toits stylisés, cerisiers, portails), **pas de décor authentifié de la série**.
 - Contrôles tactiles provisoires et interface PC/mobile.
-- Essai de course sur mur sous **statut EXPÉRIMENTAL / à vérifier dans les épisodes**, non intégré comme canon.
+- Course murale réservée à Eizan et fumée d'invisibilité **attestées dans le synopsis Apple TV France** ; leur mise en scène/animation précise reste à vérifier avec les épisodes.
 
 ## Lancer
 

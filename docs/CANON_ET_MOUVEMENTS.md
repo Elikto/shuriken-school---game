@@ -9,7 +9,8 @@ Le but est la **fidélité maximale** à la série, mais aucune action, capacit�
 | Eizan, Okuni, Jimmy B (trio) | Personnages attestés dans la série | Sélection de nom/compétence provisoire |
 | Personnalité et objets caractéristiques | À détailler avec images de référence et épisodes | Modèles géométriques provisoires uniquement |
 | Course et acrobaties ninja | Généralement cohérentes avec le genre ; mouvements exacts à relever | Déplacement et saut |
-| Course sur les murs (wall-run) | **À VÉRIFIER** : aucun épisode/timecode confirmé | Essai technique activé uniquement à titre d'ADAPTATION ; peut être désactivé dans `scripts/player.gd` |
+| Course sur les murs (Eizan) | **CONFIRMÉ, niveau synopsis** : description Apple TV France dit qu'Eizan « court sur les murs » ; épisode/timecode exact à retrouver | Wall-run réservé à Eizan ; implémentation gestuelle à calibrer sur les épisodes |
+| Camouflage / nuage de fumée (Eizan) | **CONFIRMÉ, niveau synopsis** : description Apple TV France évoque l'intégration au décor et le nuage de fumée | Invisibilité temporaire gameplay (durée de 3 secondes = ADAPTATION à tester) |
 | Esquive et combat contre vagues | **ADAPTATION** du genre horde, pas un événement canonique constaté | Esquive, mêlée, 3 vagues |
 | Techniques héros | **ADAPTATION**, noms de compétence non officiels | Attaque radial / stun / dash |
 | Coffres avec récompenses | **ADAPTATION** de game design | Coffres santé/pièces |
@@ -26,6 +27,7 @@ Dialogues : documenter l'intention, l'émotion et le déroulement narratif ; pou
 
 ## Sources de départ, non exhaustives
 
+- Apple TV France (source du wall-run et de la fumée) : https://tv.apple.com/fr/show/shuriken-school/umc.cmc.1r6uqnirbq00a98e6jlcp8cgk
 - Xilam : https://xilam.com/media/shuriken-school/
 - TF1+ : https://www.tf1.fr/tf1/shuriken-school
 - Planète Jeunesse : https://www.planete-jeunesse.com/fiche-1213-shuriken-school.html

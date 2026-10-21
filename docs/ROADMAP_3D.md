@@ -18,7 +18,8 @@
 - [ ] Rejouabilité sans déformer les personnages ou leur psychologie.
 
 ## Priorité 3 — liberté de mouvement canonique
-- [ ] Examiner scènes, épisodes, timecodes avant de catégoriser saut mural / wall-run / escalade / glissade / attaques spéciales comme canons.
+- [x] Confirmer au niveau du synopsis Apple TV France la course murale et le nuage de fumée d'Eizan.
+- [ ] Relever les épisodes/timecodes pour la mise en scène exacte, ainsi que escalade / glissade / autres mouvements.
 - [ ] Implémenter toutes les capacités **effectivement observées** avec vérification du contexte d'utilisation.
 - [ ] Employer des compétences de prototype clairement étiquetées en attendant.
 
