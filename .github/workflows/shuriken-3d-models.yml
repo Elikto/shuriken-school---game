@@ -23,7 +23,7 @@ jobs:
       - name: Installer Blender sur le serveur temporaire
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y blender
+          sudo apt-get install -y blender python3-numpy
           blender --version | head -n 2
       - name: Générer Eizan, Okuni et Jimmy (maquettes originales)
         run: |
