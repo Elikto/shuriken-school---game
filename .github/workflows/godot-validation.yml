@@ -136,7 +136,10 @@ jobs:
         shell: bash
         run: |
           keytool -genkeypair -keystore "$GITHUB_WORKSPACE/debug.keystore" -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Shuriken Debug,OU=Game,O=Elikto,C=FR"
-          timeout 110s godot --headless --editor --path game --script res://tests/configure_android.gd
+          mkdir -p "$HOME/.config/godot"
+          printf '[gd_resource type="EditorSettings" format=3]\\n\\n[resource]\\n' > "$HOME/.config/godot/editor_settings-4.6.tres"
+          printf 'export/android/android_sdk_path = "%s"\\n' "$ANDROID_HOME" >> "$HOME/.config/godot/editor_settings-4.6.tres"
+          printf 'export/android/java_sdk_path = "%s"\\n' "$JAVA_HOME" >> "$HOME/.config/godot/editor_settings-4.6.tres"
           godot --headless --path game --editor --import --quit
       - name: Exporter APK signé pour tests (non destiné au Play Store)
         env:
