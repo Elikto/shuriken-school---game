@@ -69,6 +69,9 @@ func _unhandled_input(event: InputEvent) -> void:
         Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func select_hero(index: int) -> void:
+    # Smoke cannot persist after switching to a different character.
+    smoke_timer = 0.0
+    visual.visible = true
     hero_index = posmod(index, 3)
     _rebuild_character()
 
