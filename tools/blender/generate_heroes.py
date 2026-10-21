@@ -131,10 +131,10 @@ def generate(hero, colors, output):
     for side, suffix in ((-1, "L"), (1, "R")):
         sphere("Eye" + suffix, (side*.16,-.374,2.07), (.065,.024,.083), eyes, rig, "Head", 10, 7)
         sphere("Glint" + suffix, (side*.18,-.4,2.10), (.017,.012,.021), white, rig, "Head", 8, 6)
-        sphere("Arm" + suffix, (side*.53,0,1.30), (.16,.17,.32), suit, rig, "Arm"+suffix)
+        sphere("ArmSleeve" + suffix, (side*.53,0,1.30), (.16,.17,.32), suit, rig, "Arm"+suffix)
         sphere("Hand" + suffix, (side*.59,-.01,1.02), (.14,.13,.15), skin_mat, rig, "Arm"+suffix)
         box("Cuff" + suffix, (side*.58,0,1.14), (.29,.28,.12), trim, rig, "Arm"+suffix)
-        sphere("Leg" + suffix, (side*.22,0,.52), (.21,.22,.38), suit, rig, "Leg"+suffix)
+        sphere("PantsMesh" + suffix, (side*.22,0,.52), (.21,.22,.38), suit, rig, "Leg"+suffix)
         box("Ankle" + suffix, (side*.22,0,.22), (.35,.33,.12), trim, rig, "Leg"+suffix)
         sphere("Shoe" + suffix, (side*.22,-.12,.105), (.22,.34,.11), leather, rig, "Leg"+suffix)
 
