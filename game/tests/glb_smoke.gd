@@ -23,7 +23,7 @@ func _walk(node: Node, skeletons: Array, animation_players: Array) -> void:
 
 func _run() -> void:
     for hero in ["eizan", "okuni", "jimmy"]:
-        var model_path := "res://assets/characters/" + hero + ".glb"
+        var model_path: String = "res://assets/characters/" + str(hero) + ".glb"
         check(ResourceLoader.exists(model_path), hero + " GLB registered by Godot importer")
         if not ResourceLoader.exists(model_path):
             continue
