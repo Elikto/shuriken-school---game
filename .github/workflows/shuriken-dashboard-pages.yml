@@ -1,0 +1,35 @@
+name: Shuriken School - Publication du journal
+on:
+  push:
+    branches: [main]
+    paths:
+      - "dashboard/**"
+      - ".github/workflows/shuriken-dashboard-pages.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: shuriken-journal-pages
+  cancel-in-progress: true
+jobs:
+  publish:
+    name: Publier sur GitHub Pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vérifier les fichiers
+        run: |
+          test -s dashboard/index.html
+          test -s dashboard/README.md
+          node -e "const fs=require('fs'); let s=fs.readFileSync('dashboard/index.html','utf8'); if(!s.includes('GitHub'))process.exit(1)"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dashboard
+      - name: Déployer le journal
+        uses: actions/deploy-pages@v4
