@@ -22,3 +22,11 @@ L'URL https://elikto.github.io/shuriken-school---game/ n'est valide que lorsque 
 ## Confidentialité
 
 Le dépôt Shuriken est public, ainsi que les données GitHub consultées. Le site est donc public et en lecture seule. Il n'inclut pas de commande PowerShell, de clef API, de journal d'agent local ni de ressources de la série protégées.
+
+## Tableau des tâches et priorité visuelle (octobre 2026)
+
+- Le site affiche jusqu'à **2 workflows Godot/Blender récents** avec les vraies étapes, leur état, barre de progression, horodatage de début, estimation et fin réelle **uniquement après exécution terminée**.
+- Le temps estimé d'un run provient de la **médiane approximative des dernières durées des workflows réussis de même nom** ; les horodatages de fin estimés peuvent être dépassés. Les durées historiques approximatives utilisent run_started_at et updated_at et ne servent jamais d'heure de fin réelle. La fin réelle affichée est obtenue exclusivement depuis les timestamps completed_at des jobs GitHub terminés.
+- Si aucun run n'est actif, la liste présente le dernier run confirmé ; elle ne déclare pas les agents IA en activité.
+- Les **5 tâches graphiques suivantes** figurent dans `dashboard/roadmap.json`, avec une estimation de **jours de travail actif** (et non date de livraison automatique). Ce fichier est la source de vérité de la file de production visuelle ; mettre ses statuts à jour uniquement avec preuve.
+- Actualisation environ toutes les 4 minutes pour préserver le quota d'API GitHub publique. Actualisation manuelle également disponible. L'ordre d'exécution des tâches de la feuille de route n'est pas une planification système.

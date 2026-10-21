@@ -3,19 +3,61 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
 :root{color-scheme:dark;--bg:#0a1121;--panel:#15233b;--border:#2b405e;--ink:#f3f8ff;--muted:#9db1ce;--mint:#70e9c9;--gold:#ffd078}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 60% -5%,#293e69,transparent 48%),var(--bg);color:var(--ink);font:13px 'DM Sans',Arial,sans-serif}a{color:inherit;text-decoration:none}button{cursor:pointer;font:inherit;color:inherit}a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}.app{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}aside{background:#101a2c;border-right:1px solid var(--border);padding:25px 14px;height:100vh;position:sticky;top:0;display:flex;flex-direction:column}.logo{display:flex;gap:12px;align-items:center;padding:0 12px;margin-bottom:43px;font:800 25px 'Barlow Condensed',sans-serif}.logo span{font-size:39px;color:var(--gold)}.logo small{display:block;color:var(--muted);font:10px 'DM Sans',sans-serif;letter-spacing:1.8px}.group{color:#768bab;font-size:10px;font-weight:800;letter-spacing:2px;margin:0 12px 9px}nav{display:grid;gap:5px;margin-bottom:30px}nav a{border-radius:9px;padding:12px 14px;font-weight:700;color:#a7bbd6}nav a:hover,nav a:first-child{background:#20314d;color:#fff}.aside-status{margin-top:auto;background:#1b2b45;border:1px solid #344d6b;border-radius:10px;padding:14px;color:#acc5df;font-size:11px;line-height:1.6}.aside-status p{margin:8px 0 0;color:#91a6c4}.dot{display:inline-block;background:var(--gold);width:8px;height:8px;border-radius:50%;margin-right:8px}.dot.good{background:#78e1b0}.dot.bad{background:#fa8195}main{padding:23px clamp(16px,3vw,46px);max-width:1570px;width:100%;margin:auto;min-width:0}.top{display:flex;justify-content:space-between;align-items:center;gap:13px;margin-bottom:22px}.top b{font-size:10px;letter-spacing:2px;color:#acbfd9}.top .right{display:flex;align-items:center;gap:9px}.badge{border-radius:25px;border:1px solid #355273;background:#1b2b45;padding:9px 12px;font-size:11px}.top button{background:#25405f;border:1px solid #4b698b;border-radius:9px;padding:10px 13px;font-weight:700}.hero{border-radius:16px;background:linear-gradient(116deg,#344c80,#16294b);border:1px solid #496082;min-height:252px;display:flex;align-items:center;padding:34px 40px;position:relative;overflow:hidden}.hero:after{content:'✦';font:370px Georgia,serif;position:absolute;right:-10px;top:-83px;color:#b6d1ff28;transform:rotate(15deg)}.hero>*{position:relative;z-index:1}.hero label{font-size:11px;letter-spacing:2px;color:var(--gold);font-weight:800}h1{font:800 clamp(41px,4.7vw,66px)/1 'Barlow Condensed',sans-serif;margin:12px 0 8px;text-transform:uppercase}h1 em{color:var(--gold);font-style:normal}.hero p{max-width:620px;line-height:1.65;color:#d0ddf0}.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}.tags span{border:1px solid #8298b351;background:#fff1;font-weight:800;font-size:10px;border-radius:5px;padding:7px 9px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}.stat,.card{border:1px solid var(--border);border-radius:12px;background:linear-gradient(145deg,#17243c,#121e32)}.stat{padding:18px;min-height:125px}.stat small{display:block;color:#97abc9;font-size:10px;font-weight:800;letter-spacing:1px}.stat strong{display:block;font:800 30px 'Barlow Condensed',sans-serif;margin:12px 0 3px}.stat p{color:#8ca3c0;font-size:11px;margin:0}.grid{display:grid;grid-template-columns:1.12fr 1fr;gap:16px;margin-bottom:17px}.card{padding:23px;min-width:0}.heading{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:21px}.overline{font-size:10px;letter-spacing:2px;color:var(--mint);font-weight:800;margin-bottom:7px}h2{font-size:22px;margin:0;letter-spacing:-.4px}.chip{font-size:11px;font-weight:800;border:1px solid #44806c;background:#1b453f;color:#b5f1dc;padding:7px 10px;border-radius:7px;white-space:nowrap}.chip.failed{border-color:#af5971;background:#4d2938;color:#ffcbd5}.chip.running{border-color:#b88a47;background:#4e3b29;color:#ffe2ae}.sub{font-size:12px;color:var(--muted);line-height:1.6}.run-title{font-size:18px;font-weight:800;margin-bottom:9px}.progress-head{display:flex;justify-content:space-between;gap:13px;font-size:11px;color:#bac9dc;margin:30px 0 9px}.track{background:#203049;border:1px solid #3b506d;border-radius:50px;overflow:hidden;height:12px}.fill{height:100%;width:0;background:linear-gradient(90deg,#46b4ae,#81ebc7);transition:width .4s}.note{font-size:11px;color:#8ca4c3;line-height:1.6}.action{display:flex;gap:14px;border:1px solid #375572;background:#20344e;padding:16px;margin-top:22px;border-radius:10px}.action .symbol{width:40px;height:40px;display:grid;place-items:center;background:#2e506f;border-radius:8px;font-size:23px;flex:none;color:var(--mint)}.action small{display:block;color:var(--gold);font-size:10px;letter-spacing:1.3px;font-weight:800;margin-bottom:8px}.action b{display:block}.action p{font-size:11px;line-height:1.6;color:var(--muted);margin:7px 0 0}.next{display:flex;gap:13px;font-size:11px;color:#91a8c4;margin:17px 0}.next b{color:#dfe9f9}.links{display:flex;flex-wrap:wrap;gap:15px;align-items:center}.links a,.inline-link{color:var(--mint);font-size:12px;font-weight:800}.links button{border:1px solid #4a6585;background:#263e5a;border-radius:8px;padding:9px 12px;font-weight:800}.milestone{display:flex;gap:12px;align-items:center;border-bottom:1px solid #2a3c58;padding:13px 0}.milestone:last-child{border:0}.icon{display:grid;place-items:center;width:29px;height:29px;border-radius:7px;flex:none;background:#1d4c45;color:#90e9c3}.icon.wait{background:#5c472b;color:var(--gold)}.icon.todo{background:#2b3c55;color:#b4c9df}.milestone div{flex:1}.milestone b{font-size:12px}.milestone small{display:block;color:var(--muted);font-size:11px;margin-top:5px}.state{color:#9bafca;font-size:10px}.entry{display:grid;grid-template-columns:24px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid #2a3a56}.entry:last-child{border:0}.circle{height:17px;width:17px;border:2px solid #879dbb;border-radius:50%;margin-top:3px}.circle.good{border-color:#71e2a9}.circle.bad{border-color:#ff7d97}.circle.running{border-color:var(--gold)}.entry b{font-size:12px}.entry p{font-size:11px;line-height:1.6;color:#93a9c7;margin:5px 0 0}.entry a{color:#afe8ff}.terminal{border:1px solid #344c69;background:#080f1c;border-radius:9px;overflow:hidden}.term-top{padding:11px 13px;background:#1c2d45;color:#8fa8c5;font:10px monospace}.term-top:before{content:'● ● ●';color:#dfac7b;margin-right:13px}.term-body{font:12px/1.7 Consolas,monospace;min-height:245px;max-height:305px;overflow:auto;padding:14px}.term-body p{margin:0 0 7px;overflow-wrap:anywhere}.prompt{color:var(--mint)}.term-ok{color:#87dfaa}.term-bad{color:#fc8a9b}.term-wait{color:#ffd078}.footer{margin-top:25px;padding-top:23px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:10px;color:#839cb9}.footer a{color:#b8d6ef}#modal[hidden]{display:none}#modal{position:fixed;inset:0;background:#060a13dd;z-index:20;display:grid;place-items:center;padding:20px}#modal .dialog{width:min(680px,100%);max-height:85vh;overflow:auto;border-radius:13px;border:1px solid #506987;padding:22px;background:#172740}#modal button{padding:8px 11px;border:1px solid #5c7898;border-radius:7px;background:#29435f}.step{border:1px solid #3b5575;border-radius:8px;padding:11px;margin:7px 0;font-size:12px}.step small{display:block;color:var(--muted);margin-top:5px}
 @media(max-width:1180px){.app{grid-template-columns:210px minmax(0,1fr)}.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.app{display:block}aside{height:auto;position:static;padding:12px}.logo{margin:0 0 8px}.logo span{font-size:24px}.logo{font-size:20px}.group,.aside-status,nav.links-nav{display:none}nav{display:flex;overflow-x:auto;margin:0}nav a{font-size:11px;white-space:nowrap;padding:9px}main{padding:17px}.top b{font-size:9px}.badge{font-size:10px;padding:7px}.top button{padding:8px}.hero{min-height:230px;padding:23px}.hero:after{font-size:240px;top:-40px}h1{font-size:42px}.stat{padding:14px;min-height:108px}.stat strong{font-size:24px}.card{padding:17px}.state{display:none}}
+
+/* Visual-first development board: confirmed CI work vs explicitly planned graphics. */
+.work-panel{margin-bottom:17px}.activity-list,.planned-list{display:grid;gap:12px;margin-top:20px}
+.activity-run{background:#1a2b45;border:1px solid #365275;border-radius:11px;padding:17px}
+.activity-run-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.activity-run-head b{font-size:15px}.activity-run-head a{color:#a9e8e8;text-decoration:underline;text-underline-offset:3px}
+.activity-progress-row{display:flex;justify-content:space-between;gap:12px;color:#b6c9df;font-size:11px;margin:16px 0 8px}
+.activity-clock{display:flex;flex-wrap:wrap;gap:9px;margin:15px 0 9px}
+.activity-clock div,.times-grid>div{background:#101e34;border:1px solid #304762;border-radius:7px;padding:10px 13px;min-width:145px;flex:1}
+.activity-clock small,.times-grid small{display:block;color:#89a7c8;font-size:9px;letter-spacing:1.05px;font-weight:800;margin-bottom:5px}
+.activity-clock strong,.times-grid strong{display:block;font-size:12px;color:#ebf5ff}
+.activity-steps{display:flex;gap:8px;flex-wrap:wrap}
+.activity-step{font-size:10px;padding:6px 9px;border-radius:6px;color:#b4c9df;background:#263851;border:1px solid #344f70}
+.activity-step.good{border-color:#3d766a;color:#9bf5d3}.activity-step.bad{border-color:#945167;color:#ffc4ce}.activity-step.running{border-color:#a8853c;color:#ffe0a4}
+.planned-list{grid-template-columns:repeat(auto-fit,minmax(245px,1fr))}
+.plan-card{background:#1a2b45;border:1px solid #345274;border-radius:11px;padding:17px}
+.plan-card-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:11px}
+.plan-number{font:800 27px 'Barlow Condensed',sans-serif;color:var(--gold);letter-spacing:.5px}
+.plan-priority{color:#eecb85;background:#57482a;border-radius:6px;padding:5px 8px;font-size:10px;font-weight:800}
+.plan-card h3{font-size:14px;line-height:1.45;margin:0 0 9px}.plan-card p{font-size:11px;color:#a9bfdb;line-height:1.65;min-height:51px;margin:0 0 14px}
+.plan-estimate{background:#112038;border:1px solid #344c6b;border-radius:8px;padding:10px 12px}
+.plan-estimate b{font-size:13px;display:block;margin-top:4px}.plan-estimate small{font-size:10px;color:#93abca}
+.plan-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;font-size:11px;color:#b8c7df}
+.plan-footer a{color:var(--mint);font-weight:700}
+.times-grid{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+@media(max-width:720px){.planned-list{grid-template-columns:1fr}.activity-run{padding:13px}.activity-clock div,.times-grid>div{min-width:120px}}
 </style></head>
 <body><div class="app"><aside><a href="#home" class="logo"><span>✦</span><div>SHURIKEN<small>SCHOOL / LAB</small></div></a><div class="group">PROJET</div><nav><a href="#home">◈ Vue d'ensemble</a><a href="#pipeline">▣ Travail en cours</a><a href="#journal">☷ Journal</a><a href="#history">⌁ Historique</a><a href="#issues-section">☑ Roadmap</a></nav><div class="group">RESSOURCES</div><nav class="links-nav"><a href="https://github.com/Elikto/shuriken-school---game" target="_blank">↗ Dépôt GitHub</a><a href="https://github.com/Elikto/shuriken-school---game/actions" target="_blank">↗ Tests Godot</a><a href="https://github.com/Elikto/shuriken-school---game/issues" target="_blank">↗ Tickets</a></nav><div class="aside-status"><span class="dot" id="connection-dot"></span><b id="connection-label">Connexion à GitHub…</b><p>Lecture seule. Aucun accès à ton PC ou à tes agents locaux.</p></div></aside>
 <main id="home"><header class="top"><b>JOURNAL DE BORD / SHURIKEN SCHOOL</b><div class="right"><span class="badge"><span class="dot" id="live-dot"></span><span id="live-label">Synchronisation…</span></span><button type="button" id="refresh">↻ Actualiser</button></div></header>
 <section class="hero"><div><label>✦ DÉVELOPPEMENT 3D</label><h1>Shuriken School <em>en direct.</em></h1><p>Progression mesurée des compilations, actions réelles sur GitHub, derniers commits et tâches restantes. Comme le journal de bord Burnout, mais dédié exclusivement à Shuriken.</p><div class="tags"><span>GODOT 4.6</span><span>WINDOWS / ANDROID</span><span>3ÈME PERSONNE</span><span>HORDES & BOSS</span></div></div></section>
 <section class="stats"><div class="stat"><small>DERNIER WORKFLOW TECHNIQUE</small><strong id="state">—</strong><p id="run-number">Recherche…</p></div><div class="stat"><small>ÉTAPES CI TERMINÉES</small><strong id="steps-stat">— / —</strong><p>Tests Godot ou production Blender</p></div><div class="stat"><small>TICKETS OUVERTS</small><strong id="issues-stat">—</strong><p>Travaux encore suivis</p></div><div class="stat"><small>MISE À JOUR</small><strong id="synced">—</strong><p id="quota">Données publiques GitHub</p></div></section>
-<div class="grid" id="pipeline"><article class="card"><div class="heading"><div><div class="overline">01 / PIPELINE</div><h2>Action en cours</h2></div><span id="chip" class="chip">Attente</span></div><div class="run-title" id="run-name">Recherche d'une exécution…</div><div class="sub" id="run-desc">Lecture du statut GitHub Actions.</div><div class="progress-head"><span>Étapes de workflow terminées</span><b id="step-count">— / —</b></div><div id="track" class="track" role="progressbar" aria-label="Étapes de workflow terminées" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" id="fill"></div></div><p class="note">Cette barre indique le déroulement des tests et builds, PAS l'achèvement du jeu entier.</p><div class="action"><div class="symbol">⌘</div><div><small>DERNIÈRE ACTION VÉRIFIÉE</small><b id="action-name">En attente</b><p id="action-detail">Aucun événement chargé.</p></div></div><div class="next"><span>PROCHAINE ÉTAPE :</span><b id="next-step">Non déterminée</b></div><div class="links"><a id="run-link" href="https://github.com/Elikto/shuriken-school---game/actions" target="_blank" rel="noopener noreferrer">Voir l'exécution ↗</a><button id="details" type="button">Détail des étapes ↓</button></div></article>
+<section class="work-panel card" id="taches-en-cours" aria-label="Tâches techniques en cours">
+ <div class="heading"><div><div class="overline">SURVEILLANCE / EXÉCUTIONS VÉRIFIÉES</div><h2>Tâches en cours et dernières tâches terminées</h2></div><span class="chip" id="activity-count">Chargement…</span></div>
+ <p class="note">État des véritables jobs Godot/Blender. Les agents ChatGPT hors GitHub ne sont pas visibles ici. La progression représente uniquement les étapes des tests ou builds.</p>
+ <div id="activity-list" class="activity-list" aria-live="polite"><p class="note">Lecture des actions GitHub…</p></div>
+</section>
+<section class="work-panel card" id="prochaines-taches">
+ <div class="heading"><div><div class="overline">PRIORITÉ ABSOLUE / GRAPHISMES</div><h2>5 prochaines tâches planifiées</h2></div><span class="chip running">P0 — Graphismes</span></div>
+ <p class="note">Ordre de réalisation prévu, non une file de jobs déjà démarrés. Les estimations indiquent des <strong>jours de travail actif</strong>, pas une date de livraison ni une promesse de fonctionnement continu des IA.</p>
+ <div class="planned-list" id="planned-list"><p class="note">Chargement de la feuille de route…</p></div>
+ <p class="note" id="plan-note">Les tâches sont suivies dans le dépôt GitHub.</p>
+</section>
+<div class="grid" id="pipeline"><article class="card"><div class="heading"><div><div class="overline">01 / PIPELINE</div><h2>Action en cours</h2></div><span id="chip" class="chip">Attente</span></div><div class="run-title" id="run-name">Recherche d'une exécution…</div><div class="sub" id="run-desc">Lecture du statut GitHub Actions.</div>
+<div class="times-grid" aria-label="Horaires du workflow">
+ <div><small>DÉBUT RÉEL</small><strong id="run-start">Non disponible</strong></div>
+ <div><small>DURÉE / FIN ESTIMÉE</small><strong id="run-eta">Non disponible</strong></div>
+ <div id="run-finish-box" hidden><small>FIN RÉELLE</small><strong id="run-finish"></strong></div>
+</div><div class="progress-head"><span>Étapes de workflow terminées</span><b id="step-count">— / —</b></div><div id="track" class="track" role="progressbar" aria-label="Étapes de workflow terminées" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" id="fill"></div></div><p class="note">Cette barre indique le déroulement des tests et builds, PAS l'achèvement du jeu entier.</p><div class="action"><div class="symbol">⌘</div><div><small>DERNIÈRE ACTION VÉRIFIÉE</small><b id="action-name">En attente</b><p id="action-detail">Aucun événement chargé.</p></div></div><div class="next"><span>PROCHAINE ÉTAPE :</span><b id="next-step">Non déterminée</b></div><div class="links"><a id="run-link" href="https://github.com/Elikto/shuriken-school---game/actions" target="_blank" rel="noopener noreferrer">Voir l'exécution ↗</a><button id="details" type="button">Détail des étapes ↓</button></div></article>
 <article class="card"><div class="heading"><div><div class="overline">02 / LIVRABLES</div><h2>Avancement du jeu</h2></div></div>
 <div class="milestone"><span class="icon">✓</span><div><b>Campagne solo 3D</b><small>Trois chapitres alpha dans le code</small></div><span class="state">Prototype</span></div><div class="milestone"><span class="icon">✓</span><div><b>Compilation Windows</b><small>Résultat du dernier workflow à gauche</small></div><span class="state">Automatisée</span></div><div class="milestone"><span class="icon wait">◌</span><div><b>Graphismes fidèles au dessin animé</b><small>Silhouettes 3D et animations provisoires</small></div><span class="state">En chantier</span></div><div class="milestone"><span class="icon todo">◇</span><div><b>Coopération en ligne</b><small>Non testée entre PC et téléphone</small></div><span class="state">À faire</span></div><div class="milestone"><span class="icon todo">◇</span><div><b>APK Android</b><small>Export et tests physiques à valider</small></div><span class="state">À faire</span></div></article></div>
 <div class="grid" id="journal"><article class="card"><div class="heading"><div><div class="overline">03 / ÉVÉNEMENTS</div><h2>Activité récente</h2></div><span class="chip">GitHub</span></div><div id="events"><p class="note">Chargement des actions…</p></div></article>
 <article class="card"><div class="heading"><div><div class="overline">04 / TERMINAL</div><h2>Journal technique</h2></div><a class="inline-link" id="logs-link" target="_blank" rel="noopener noreferrer" href="https://github.com/Elikto/shuriken-school---game/actions">Logs GitHub ↗</a></div><div class="terminal"><div class="term-top">ÉTAPES EXÉCUTÉES / STATUTS</div><div class="term-body" id="terminal"><p>Connexion aux données…</p></div></div><p class="note">Affiche les vrais noms et états des étapes GitHub, pas des commandes inventées. Clique sur « Logs GitHub » pour voir les sorties console intégrales sur la plateforme.</p></article></div>
 <div class="grid" id="history"><article class="card"><div class="heading"><div><div class="overline">05 / HISTORIQUE</div><h2>Derniers commits</h2></div><a class="inline-link" href="https://github.com/Elikto/shuriken-school---game/commits/main" target="_blank">Tout voir ↗</a></div><div id="commits"><p class="note">Recherche de commits…</p></div></article>
 <article class="card" id="issues-section"><div class="heading"><div><div class="overline">06 / FEUILLE DE ROUTE</div><h2>Tickets ouverts</h2></div><a class="inline-link" href="https://github.com/Elikto/shuriken-school---game/issues" target="_blank">GitHub ↗</a></div><div id="issues"><p class="note">Recherche des tâches…</p></div></article></div>
-<div class="footer"><span>SHURIKEN SCHOOL LAB · PUBLIC</span><span id="updated">Aucune synchronisation</span><span>Rafraîchissement environ 2 min · <a target="_blank" href="https://github.com/Elikto/shuriken-school---game">Source GitHub ↗</a></span></div></main></div>
+<div class="footer"><span>SHURIKEN SCHOOL LAB · PUBLIC</span><span id="updated">Aucune synchronisation</span><span>Rafraîchissement environ 4 min · <a target="_blank" href="https://github.com/Elikto/shuriken-school---game">Source GitHub ↗</a></span></div></main></div>
 <div id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-label="Étapes GitHub"><div class="heading"><h2>Étapes du dernier workflow</h2><button id="close" type="button">Fermer ✕</button></div><div id="steps-list"></div><p class="note">États issus de l'API GitHub Actions, pas de surveillance directe des agents sur un PC privé.</p></div></div>
 <script>
 'use strict';
@@ -24,12 +66,96 @@ const $=id=>document.getElementById(id);
 const escapeHtml=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=s=>s?new Date(s).toLocaleString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
 const link=s=>typeof s==='string'&&s.startsWith(REPO+'/')?s:REPO;
-const model={run:null,jobs:[],commits:[],issues:[],busy:false,last:0,limit:0,remaining:null};
+const model={run:null,runs:[],activityGroups:[],jobs:[],commits:[],issues:[],plan:[],busy:false,last:0,limit:0,remaining:null};
 const state=x=>x&&x.conclusion==='success'?'Réussi':x&&x.conclusion==='failure'?'Échec':x&&x.conclusion==='cancelled'?'Annulé':x&&x.status==='in_progress'?'En cours':x&&x.status==='queued'?'En file':x?x.conclusion||x.status:'—';
 const kind=x=>x.conclusion==='success'?'good':x.conclusion==='failure'?'bad':x.status==='in_progress'?'running':'wait';
 const steps=()=>model.jobs.flatMap(j=>(j.steps||[]).filter(x=>!x.name.startsWith('Post ')).map(x=>Object.assign({jobName:j.name},x)));
 async function fetchJson(path){const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),12000);try{const r=await fetch(API+path,{signal:controller.signal,cache:'no-store',headers:{Accept:'application/vnd.github+json'}});const left=r.headers.get('x-ratelimit-remaining');if(left!==null)model.remaining=Number(left);if(r.status===403||r.status===429){model.limit=Date.now()+60*60*1000;throw Error('Limite GitHub atteinte. Réessaie plus tard.');}if(!r.ok)throw Error('GitHub API : '+r.status);return await r.json();}finally{clearTimeout(timer)}}
+
+function startTime(run, jobs) {
+    return run.run_started_at || jobs.find(j => j.started_at)?.started_at || run.created_at || null;
+}
+function finishTime(run, jobs) {
+    if(run.status!=='completed') return null;
+    const ends=jobs.map(j=>j.completed_at).filter(Boolean).sort();
+    return ends.length?ends[ends.length-1]:null;
+}
+function historicalMinutes(run) {
+    const values=model.runs.filter(x=>x.name===run.name && x.conclusion==='success' && x.run_started_at && x.updated_at)
+      .map(x=>(new Date(x.updated_at)-new Date(x.run_started_at))/60000)
+      .filter(x=>Number.isFinite(x)&&x>0.05&&x<180).sort((a,b)=>a-b);
+    if(!values.length) return null;
+    return values[Math.floor(values.length/2)];
+}
+function shortDuration(mins) {
+    if(!Number.isFinite(mins))return 'Non disponible';
+    if(mins<1)return 'moins d’une minute';
+    if(mins<60)return Math.round(mins)+' min';
+    return Math.floor(mins/60)+' h '+Math.round(mins%60)+' min';
+}
+function estimateText(run,jobs) {
+    const historic=historicalMinutes(run);
+    const started=startTime(run,jobs);
+    if(run.status==='completed'){
+        const finished=finishTime(run,jobs);
+        return finished&&started?'Durée réelle : '+shortDuration((new Date(finished)-new Date(started))/60000):'Estimation non nécessaire';
+    }
+    if(historic===null||!started)return 'Estimation indisponible';
+    const passed=(Date.now()-new Date(started))/60000;
+    if(passed>historic*1.75)return 'Estimation dépassée — toujours en cours';
+    const eta=new Date(new Date(started).getTime()+historic*60000);
+    return 'vers '+date(eta.toISOString())+' (≈ '+shortDuration(historic)+' au total)';
+}
+function niceLabel(run) {
+    if((run.name||'').includes('Blender'))return 'Création des personnages 3D — Blender';
+    if((run.name||'').includes('Godot'))return 'Tests et compilation du jeu — Godot';
+    return run.name||'Exécution GitHub';
+}
+function renderActivity() {
+    const active=model.activityGroups.filter(g=>g.run.status!=='completed');
+    $('activity-count').textContent=active.length?active.length+' exécution(s) active(s)':'Aucune exécution active';
+    $('activity-count').className='chip'+(active.length?' running':'');
+    $('activity-list').innerHTML=model.activityGroups.map(g=>{
+        const r=g.run, jobs=g.jobs||[], stepItems=jobs.flatMap(j=>(j.steps||[]));
+        const completed=stepItems.filter(s=>s.status==='completed').length,total=stepItems.length;
+        const pct=total?Math.round(100*completed/total):0;
+        const started=startTime(r,jobs),ended=finishTime(r,jobs);
+        const timeInfo='<div><small>HEURE DE DÉBUT</small><strong>'+escapeHtml(date(started))+'</strong></div>'+
+           '<div><small>'+(r.status==='completed'?'DURÉE':'FIN ESTIMÉE')+'</small><strong>'+escapeHtml(estimateText(r,jobs))+'</strong></div>'+
+           (r.status==='completed'?'<div><small>HEURE DE FIN CONFIRMÉE</small><strong>'+escapeHtml(date(ended))+'</strong></div>':'');
+        const tasks=jobs.map(j=>'<span class="activity-step '+kind(j)+'">'+escapeHtml(j.name)+': '+escapeHtml(state(j))+'</span>').join('');
+        return '<article class="activity-run"><div class="activity-run-head"><div><b><a href="'+escapeHtml(link(r.html_url))+'" target="_blank" rel="noopener noreferrer">'+escapeHtml(niceLabel(r))+'</a></b>'+
+        '<div class="sub">Exécution #'+Number(r.run_number||0)+' · '+escapeHtml(state(r))+'</div></div><span class="chip '+(r.conclusion==='failure'?'failed':r.status!=='completed'?'running':'')+'">'+escapeHtml(state(r))+'</span></div>'+
+        '<div class="activity-progress-row"><span>Progression des étapes</span><b>'+completed+' / '+total+' ('+pct+' %)</b></div>'+
+        '<div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pct+'" aria-label="Étapes '+escapeHtml(niceLabel(r))+'"><div class="fill" style="width:'+pct+'%"></div></div>'+
+        '<div class="activity-clock">'+timeInfo+'</div><div class="activity-steps">'+tasks+'</div></article>';
+    }).join('') || '<p class="note">Aucune exécution disponible. Le journal ne peut pas observer le travail effectué hors GitHub.</p>';
+}
+async function roadmap(){
+    try{
+      const response=await fetch('roadmap.json',{cache:'no-store'});
+      if(!response.ok)throw Error('Feuille de route indisponible');
+      const data=await response.json();
+      if(!Array.isArray(data.tasks)||data.tasks.length<5)throw Error('Cinq tâches attendues');
+      model.plan=data.tasks.slice(0,5);
+      $('planned-list').innerHTML=model.plan.map((t,i)=>{
+         const estimate=String(t.estimate_min_days)+' à '+String(t.estimate_max_days)+' jours de travail';
+         const issue=Number(t.issue)||2;
+         return '<article class="plan-card"><div class="plan-card-top"><span class="plan-number">'+String(i+1).padStart(2,'0')+'</span><span class="plan-priority">GRAPHISMES / '+escapeHtml(t.priority||'P0')+'</span></div>'+
+         '<h3>'+escapeHtml(t.name)+'</h3><p>'+escapeHtml(t.description)+'</p><div class="plan-estimate"><small>ESTIMATION DE TRAVAIL ACTIF</small><b>'+escapeHtml(estimate)+'</b></div>'+
+         '<div class="plan-footer"><span>'+escapeHtml(t.status==='in_progress'?'En cours (plan)':'Prévue — non commencée')+'</span><a href="'+escapeHtml(REPO+'/issues/'+issue)+'" target="_blank" rel="noopener noreferrer">Ticket #'+issue+' ↗</a></div></article>';
+      }).join('');
+      $('plan-note').textContent=data.estimate_note||'Estimations de travail actif — non garanties.';
+    }catch(err){
+      $('planned-list').textContent='La feuille de route ne peut pas être chargée : '+String(err.message||'erreur');
+    }
+}
 function renderBuild(){const r=model.run;if(!r){$('run-name').textContent='Aucun workflow Godot trouvé';return;}const items=steps(),finished=items.filter(x=>x.status==='completed').length,total=items.length,pct=total?Math.round(100*finished/total):0;const active=items.find(x=>x.status==='in_progress');const pending=items.find(x=>x.status==='pending');const last=items.filter(x=>x.status==='completed').slice(-1)[0];const url=link(r.html_url);
+$('run-start').textContent=date(startTime(r,model.jobs));
+$('run-eta').textContent=estimateText(r,model.jobs);
+$('run-finish-box').hidden=r.status!=='completed';
+if(r.status==='completed')$('run-finish').textContent=date(finishTime(r,model.jobs));
+
 $('state').textContent=state(r);$('run-number').textContent='Exécution #'+(r.run_number||'—')+' · '+date(r.created_at);$('steps-stat').textContent=total?finished+' / '+total:'— / —';$('chip').textContent=state(r);$('chip').className='chip'+(r.conclusion==='failure'?' failed':r.status==='in_progress'?' running':'');$('run-name').textContent=r.name||'Godot 3D';$('run-desc').textContent='Branche '+(r.head_branch||'—')+' • '+date(r.created_at)+' • '+(r.head_sha||'').slice(0,7);$('step-count').textContent=total?finished+' / '+total:'Étapes indisponibles';$('fill').style.width=pct+'%';$('track').setAttribute('aria-valuenow',String(pct));$('action-name').textContent=active?active.name:last?'Dernière : '+last.name:'En attente des étapes';$('action-detail').textContent=active?'Étape '+active.jobName+' active depuis '+date(active.started_at):r.status==='completed'?'Exécution terminée : '+state(r)+'. Aucun agent local observé.':'Démarrage ou attente GitHub Actions.';$('next-step').textContent=pending?pending.jobName+' / '+pending.name:r.status==='completed'?'Prochaine modification ou prochaine CI':'Non déterminée';$('run-link').href=url;$('logs-link').href=url;
 const recent=items.filter(x=>x.started_at).slice().sort((a,b)=>new Date(b.started_at)-new Date(a.started_at)).slice(0,10);
 $('events').innerHTML=recent.length?recent.map(x=>'<div class="entry"><span class="circle '+kind(x)+'"></span><div><b>'+escapeHtml(x.name)+'</b><p>'+escapeHtml(x.jobName)+' · '+escapeHtml(date(x.started_at))+' · '+escapeHtml(x.conclusion||x.status)+' · <a href="'+escapeHtml(url)+'" target="_blank" rel="noopener noreferrer">GitHub ↗</a></p></div></div>').join(''):'<p class="note">Pas encore de tâches horodatées.</p>';
@@ -37,8 +163,21 @@ $('terminal').innerHTML=recent.length?recent.slice().reverse().map(x=>'<p><span 
 $('steps-list').innerHTML=model.jobs.map(j=>'<h3>'+escapeHtml(j.name)+' · '+escapeHtml(state(j))+'</h3>'+(j.steps||[]).map(x=>'<div class="step"><b>'+escapeHtml(x.name)+'</b><small>'+escapeHtml(x.conclusion||x.status)+' · '+escapeHtml(date(x.started_at))+' → '+escapeHtml(date(x.completed_at))+'</small></div>').join('')).join('')||'<p class="note">Aucune étape disponible.</p>';
 }
 function renderHistory(){$('issues-stat').textContent=model.issues.length;$('commits').innerHTML=model.commits.slice(0,8).map(x=>'<div class="entry"><span class="circle good"></span><div><b><a target="_blank" rel="noopener noreferrer" href="'+escapeHtml(link(x.html_url))+'">'+escapeHtml((x.commit&&x.commit.message||'Commit').split('\n')[0])+'</a></b><p>'+escapeHtml((x.sha||'').slice(0,7))+' · '+escapeHtml(date(x.commit&&x.commit.author&&x.commit.author.date))+'</p></div></div>').join('')||'<p class="note">Aucun commit.</p>';$('issues').innerHTML=model.issues.slice(0,8).map(x=>'<div class="entry"><span class="circle running"></span><div><b><a target="_blank" rel="noopener noreferrer" href="'+escapeHtml(link(x.html_url))+'">#'+Number(x.number)+' '+escapeHtml(x.title)+'</a></b><p>Ouvert · '+escapeHtml(date(x.updated_at))+'</p></div></div>').join('')||'<p class="note">Aucun ticket ouvert.</p>';}
-async function build(){const d=await fetchJson('/actions/runs?per_page=15');model.run=(d.workflow_runs||[]).find(x=>x.head_branch==='main'&&(['godot-validation.yml','shuriken-3d-models.yml'].some(p=>(x.path||'').includes(p))||['Godot 3D','Blender - Modeles 3D Shuriken'].some(n=>(x.name||'').includes(n))))||null;model.jobs=model.run?(await fetchJson('/actions/runs/'+Number(model.run.id)+'/jobs?per_page=100')).jobs||[]:[];renderBuild()}
+async function build(){
+   const data=await fetchJson('/actions/runs?per_page=20');
+   model.runs=(data.workflow_runs||[]).filter(x=>x.head_branch==='main'&&(
+      ['godot-validation.yml','shuriken-3d-models.yml'].some(p=>(x.path||'').includes(p))||
+      ['Godot 3D','Blender - Modeles 3D Shuriken'].some(n=>(x.name||'').includes(n))
+   ));
+   const active=model.runs.filter(x=>x.status!=='completed');
+   const chosen=[...active.slice(0,2),model.runs[0]].filter((x,i,a)=>x&&a.findIndex(y=>y&&y.id===x.id)===i).slice(0,2);
+   model.activityGroups=await Promise.all(chosen.map(async run=>({run,jobs:(await fetchJson('/actions/runs/'+Number(run.id)+'/jobs?per_page=100')).jobs||[]})));
+   model.run=model.activityGroups[0]?.run||null;
+   model.jobs=model.activityGroups[0]?.jobs||[];
+   renderActivity();
+   renderBuild();
+}
 async function history(){const out=await Promise.all([fetchJson('/commits?per_page=10'),fetchJson('/issues?state=open&per_page=25')]);model.commits=Array.isArray(out[0])?out[0]:[];model.issues=Array.isArray(out[1])?out[1].filter(x=>!x.pull_request):[];renderHistory()}
-async function refresh(full){if(model.busy||document.hidden||Date.now()<model.limit)return;model.busy=true;$('refresh').disabled=true;try{if(full)await Promise.all([build(),history()]);else await build();model.last=Date.now();$('connection-dot').className='dot good';$('live-dot').className='dot good';$('connection-label').textContent='GitHub connecté';$('live-label').textContent='Données actualisées';$('synced').textContent=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});$('updated').textContent='Synchronisation : '+date(new Date().toISOString());$('quota').textContent=model.remaining!==null?'Quota API restant : '+model.remaining:'Source GitHub';}catch(e){$('connection-dot').className='dot bad';$('live-dot').className='dot bad';$('connection-label').textContent=e.message||'Connexion impossible';$('live-label').textContent='Données indisponibles';$('updated').textContent=e.message||'Erreur réseau';}finally{model.busy=false;$('refresh').disabled=false}}
-$('refresh').addEventListener('click',()=>refresh(true));$('details').addEventListener('click',()=>{$('modal').hidden=false;$('close').focus()});$('close').addEventListener('click',()=>{$('modal').hidden=true;$('details').focus()});$('modal').addEventListener('click',e=>{if(e.target===$('modal'))$('close').click()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('modal').hidden)$('close').click()});document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-model.last>120000)refresh(true)});setInterval(()=>refresh(false),120000);setInterval(()=>refresh(true),600000);refresh(true);
+async function refresh(full){if(model.busy||document.hidden||Date.now()<model.limit)return;model.busy=true;$('refresh').disabled=true;try{if(full)await Promise.all([build(),history(),roadmap()]);else await build();model.last=Date.now();$('connection-dot').className='dot good';$('live-dot').className='dot good';$('connection-label').textContent='GitHub connecté';$('live-label').textContent='Données actualisées';$('synced').textContent=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});$('updated').textContent='Synchronisation : '+date(new Date().toISOString());$('quota').textContent=model.remaining!==null?'Quota API restant : '+model.remaining:'Source GitHub';}catch(e){$('connection-dot').className='dot bad';$('live-dot').className='dot bad';$('connection-label').textContent=e.message||'Connexion impossible';$('live-label').textContent='Données indisponibles';$('updated').textContent=e.message||'Erreur réseau';}finally{model.busy=false;$('refresh').disabled=false}}
+$('refresh').addEventListener('click',()=>refresh(true));$('details').addEventListener('click',()=>{$('modal').hidden=false;$('close').focus()});$('close').addEventListener('click',()=>{$('modal').hidden=true;$('details').focus()});$('modal').addEventListener('click',e=>{if(e.target===$('modal'))$('close').click()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('modal').hidden)$('close').click()});document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-model.last>240000)refresh(true)});setInterval(()=>refresh(false),240000);setInterval(()=>refresh(true),900000);refresh(true);
 </script></body></html>

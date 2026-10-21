@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "title": "Priorité absolue : graphismes jouables",
+  "estimate_note": "Estimations de travail actif, non dates de livraison. Nécessitent une production 3D qualifiée; non exécutées en permanence par ChatGPT.",
+  "updated_at": "2026-10-21",
+  "tasks": [
+    {
+      "id": "VIS-01",
+      "name": "Eizan : visage, coiffure et vraie silhouette 3D",
+      "category": "Personnage",
+      "priority": "P0",
+      "status": "planned",
+      "estimate_min_days": 5,
+      "estimate_max_days": 12,
+      "description": "Améliorer le modèle riggé, proportions, costume noir et bleu, expression et validation en capture Godot.",
+      "issue": 1
+    },
+    {
+      "id": "VIS-02",
+      "name": "Okuni : couettes, visage et tenue détaillée",
+      "category": "Personnage",
+      "priority": "P0",
+      "status": "planned",
+      "estimate_min_days": 5,
+      "estimate_max_days": 12,
+      "description": "Produire un modèle distinct avec cheveux articulés, accessoires et animation sans rupture d'import.",
+      "issue": 2
+    },
+    {
+      "id": "VIS-03",
+      "name": "Jimmy B : cheveux, skateboard et costume 3D",
+      "category": "Personnage",
+      "priority": "P0",
+      "status": "planned",
+      "estimate_min_days": 5,
+      "estimate_max_days": 12,
+      "description": "Travailler les volumes du visage, la tenue et la lecture de l'animation de glisse dans Godot.",
+      "issue": 2
+    },
+    {
+      "id": "VIS-04",
+      "name": "Rendu cartoon moderne : shaders, ombres et éclairage",
+      "category": "Qualité visuelle",
+      "priority": "P0",
+      "status": "planned",
+      "estimate_min_days": 4,
+      "estimate_max_days": 9,
+      "description": "Améliorer cel shading, contours contrôlés et cohérence de la lumière sur les personnages et la scène.",
+      "issue": 2
+    },
+    {
+      "id": "VIS-05",
+      "name": "Cour Shuriken : dojo, textures et végétation détaillés",
+      "category": "Décors",
+      "priority": "P0",
+      "status": "planned",
+      "estimate_min_days": 8,
+      "estimate_max_days": 18,
+      "description": "Transformer la cour procédurale en décors modulaires de qualité, optimisés et testés dans le moteur.",
+      "issue": 2
+    }
+  ]
+}
