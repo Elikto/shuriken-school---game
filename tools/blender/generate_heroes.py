@@ -139,7 +139,46 @@ def generate(hero, colors, output):
         sphere("Shoe" + suffix, (side*.22,-.12,.105), (.22,.34,.11), leather, rig, "Leg"+suffix)
 
     if hero == "eizan":
+        # VIS-01 starts here: original, more readable facial profile and
+        # silhouette, all skinned to the existing Head / Spine / Pelvis bones.
+        # This is still a prototype, not a copied television character mesh.
+        ink = material("EizanFacialInk", "#293347")
+        mouth = material("EizanMouth", "#7a4f51")
+        dark_blue = material("EizanDeepBlue", "#254d8d")
+        rim_light = material("EizanCollarEdge", "#65a5e3")
         box("StraightHairFringe", (0,-.29,2.30), (.84,.13,.19), hair, rig, "Head", .045)
+        sphere("LayeredBackHair", (0,.215,2.16), (.42,.27,.32), hair, rig, "Head")
+        # Deliberately staggered, individually rounded bangs (not one flat box).
+        for index in range(5):
+            x = (index-2)*.17
+            z = 2.23-(index%2)*.047
+            sphere("LayeredBangs_%d" % index,(x,-.345,z),
+                   (.105,.115,.155),hair,rig,"Head",14,10)
+        for side, suffix in ((-1,"L"),(1,"R")):
+            # Eyebrows, cheeks and sideburns make the face legible at mid-range.
+            brow=box("EizanBrow"+suffix,(side*.16,-.393,2.198),
+                     (.20,.035,.040),hair,rig,"Head",.014)
+            brow.rotation_euler.y=side*.08
+            sphere("EizanSideburn"+suffix,(side*.402,-.095,2.115),
+                   (.095,.115,.19),hair,rig,"Head",12,8)
+            sphere("EizanCheekLine"+suffix,(side*.305,-.331,1.971),
+                   (.050,.015,.020),ink,rig,"Head",10,7)
+            box("EizanWristGuard"+suffix,(side*.588,-.012,1.10),
+                (.295,.286,.092),dark_blue,rig,"Arm"+suffix,.029)
+            box("EizanShinArmor"+suffix,(side*.22,-.181,.36),
+                (.245,.095,.27),dark_blue,rig,"Leg"+suffix,.046)
+        sphere("EizanSmallNose",(0,-.388,1.996),(.042,.029,.041),
+               skin_mat,rig,"Head",10,8)
+        box("EizanMouthLine",(0,-.387,1.900),(.105,.018,.017),
+            mouth,rig,"Head",.007)
+        # Narrow crossed collar and bright blue diagonal shoulder strap.
+        strap=box("EizanCrossBodySash",(-.12,-.332,1.395),
+                  (.125,.07,.50),trim,rig,"Spine",.038)
+        strap.rotation_euler.y=-.45
+        box("EizanNeckBorder",(0,-.215,1.680),(.55,.095,.072),
+            rim_light,rig,"Spine",.021)
+        box("EizanHeadband",(0,-.345,2.365),(.83,.085,.055),
+            dark_blue,rig,"Head",.02)
         practice = material("GreenPracticeRuler", "#51c995")
         box("TrainingRuler", (.69,-.12,.87), (.11,.15,.88), practice, rig, "ArmR")
     elif hero == "okuni":
