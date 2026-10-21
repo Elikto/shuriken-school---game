@@ -23,6 +23,8 @@ jobs:
           import re
           page = Path("dashboard/index.html").read_text(encoding="utf-8")
           assert '<html' in page and 'id="events"' in page and 'id="commits"' in page
+          assert 'id="apercu-visuel"' in page and 'id="terminal-direct"' in page
+          assert 'src="live.js"' in page, "Live JS must load"
           scripts = re.findall(r'<script>(.*?)</script>', page, flags=re.S | re.I)
           assert len(scripts) == 1, "Un script embarqué attendu"
           Path("/tmp/shuriken-dashboard.js").write_text(scripts[0], encoding="utf-8")
@@ -46,6 +48,7 @@ jobs:
           node --check /tmp/shuriken-dashboard.js
           test -s dashboard/live.js
           node --check dashboard/live.js
+          test -s tools/dashboard/assemble_previews.py
           python3 -m py_compile tools/dashboard/assemble_previews.py
       - name: Publier une version ouvrable dans le navigateur
         uses: actions/upload-artifact@v4

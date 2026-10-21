@@ -38,3 +38,16 @@ La feuille de route `roadmap.json` contient un premier créneau **prévu** de d�
 À la **validation documentée** d'une tâche (preuves GitHub et `status: completed`, `actual_finish_at`), la suivante devient prioritaire sans pause volontaire ; elle ne devient « en cours » que lorsqu'un agent démarre vraiment et enregistre `actual_start_at` avec un justificatif. Le site ne prétend jamais qu'un agent travaille uniquement parce que l'heure prévue est passée. Le développement ChatGPT est limité à des passages horaires, pas un processus résident sur un ordinateur.
 
 **Enchaînement technique effectif :** GitHub Actions peut automatiquement démarrer le workflow de validation Godot lorsque le workflow Blender se termine avec succès (`workflow_run`). C'est un déclencheur réel pour vérifier l'import, produire une capture et compiler Windows, **pas** un système capable de créer automatiquement les modèles artistiques suivants. Aucun déclenchement si Blender échoue, pas de boucle infinie.
+
+## Aperçu graphique et terminal daté
+
+La page affiche sous les tâches actives un aperçu du vrai rendu Godot, avec un comparateur avant/après et les 5 derniers PNG issus de builds vérifiés.
+
+Après une exécution Godot réussie, le workflow GitHub Pages est déclenché. Le script tools/dashboard/assemble_previews.py télécharge uniquement les artefacts ShurikenSchool3D-Apercu, valide leur signature PNG et publie jusqu'à 5 captures dans live/captures avec le fichier live/manifest.json. Ces fichiers sont créés dans le runner du déploiement, pas ajoutés au dépôt. Le navigateur interroge le manifest statique toutes les 75 secondes. Ce n'est pas un flux vidéo direct ni une image conceptuelle IA.
+
+Le terminal horodaté rassemble :
+- CI : noms et états des vraies étapes GitHub Actions, datées par leur started_at, rafraîchies environ toutes les 4 minutes ;
+- CMD : commandes déclarées dans une liste autorisée et liées à une étape effectivement démarrée. Pas une sortie brute de console ;
+- CODE : vraies lignes modifiées dans les patchs publics GitHub, horodatées avec le commit (pas avec l'heure où chaque ligne a été saisie), rafraîchies au rythme de l'historique de commits et du quota public GitHub.
+
+Le site statique ne peut pas lire les commandes exécutées par une IA locale Ollama/Qwen ni la sortie stdout complète d'une exécution distante sans connexion supplémentaire. Les logs complets restent accessibles sur GitHub Actions. Aucun accès au PC, aucun secret et aucun contrôle d'agent n'est donné par le site.
