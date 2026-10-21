@@ -55,10 +55,10 @@ func _physics_process(delta: float) -> void:
         return
     attack_timer = maxf(0,attack_timer-delta)
     charge_timer = maxf(0,charge_timer-delta)
-    var to_player := target.global_position - global_position
+    var to_player: Vector3 = target.global_position - global_position
     to_player.y = 0.0
     if to_player.length() > (2.25 if boss else 1.25):
-        var dir := to_player.normalized()
+        var dir: Vector3 = to_player.normalized()
         var actual_speed := speed * (1.9 if boss and charge_timer > 0.0 else 1.0)
         velocity.x = dir.x * actual_speed
         velocity.z = dir.z * actual_speed
