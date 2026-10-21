@@ -87,8 +87,8 @@
   ],
   "planning": {
     "timezone": "Europe/Paris",
-    "first_planned_start_at": "2026-10-21T05:18:43Z",
-    "first_planned_start_basis": "Next hourly ChatGPT development slot, not evidence of an agent starting",
+    "first_planned_start_at": "2026-10-21T05:26:22Z",
+    "first_planned_start_basis": "Next hourly ChatGPT development slot at 07:26 Europe/Paris (as of plan update); only a forecast",
     "handoff": "immediately_after_verified_previous_task_completion_when_an_agent_is_available",
     "status_policy": "planned until independently confirmed; never infer in_progress from forecast clock",
     "forecasting_assumption": "One estimated active workday treated as one elapsed calendar day solely to display conditional start windows. Not a delivery promise."
