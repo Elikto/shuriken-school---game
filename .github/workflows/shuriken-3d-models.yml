@@ -44,6 +44,7 @@ jobs:
               scene=json.loads(data[20:20+chunk_size])
               assert scene.get("skins"),hero+" has no skinned mesh"
               assert scene.get("animations"),hero+" has no animation"
+              assert len(scene["animations"])==1,hero+" must have only its own idle animation"
               assert len(scene.get("meshes",[]))>=10,hero
               bones={node.get("name") for node in scene.get("nodes",[])}
               for bone in ("Root","Pelvis","Spine","Head","ArmL","ArmR","LegL","LegR"):
