@@ -33,12 +33,12 @@ WASD / flèches = déplacement, clic droit + souris = caméra, clic gauche = att
 | Lot | État |
 |---|---|
 | Ancienne version 2D/rétro | Supprimée des fichiers de `main` (reste dans l'historique Git) |
-| Gameplay 3D troisième personne | Implémenté, **non validé en moteur** |
-| 3 vagues, boss, coffres, soins | Implémentés, **non validés en moteur** |
+| Gameplay 3D troisième personne | Import et démarrage **validés en Godot 4.6.3**, rendu visuel sur PC encore à contrôler |
+| 3 vagues, boss, coffres, soins | Implémentés ; premier scénario de test automatisé **réussi**, équilibrage et partie complète à vérifier |
 | Décor toon original | Prototypé, **non fidèle aux assets officiels** |
 | Mouvements + dialogues exacts dessin animé | Recherche épisode par épisode en attente |
 | Coop Internet PC/mobile | Non implémentée |
 | APK Android | Non créé |
 | Exécutable Windows | **Compilé sur GitHub Actions** : EXE + PCK dans une archive ZIP téléchargeable |
 
-Aucun agent local, aucune dépense cloud ni service extérieur n'a été lancé par ce dépôt.
+Aucun agent local Burnout ni service payant n'a été démarré. GitHub Actions effectue les contrôles et l'export Windows.
