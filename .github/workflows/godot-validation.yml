@@ -43,3 +43,30 @@ jobs:
           set -o pipefail
           godot --headless --path game --quit-after 5 2>&1 | tee godot-runtime.log
           if grep -E 'SCRIPT ERROR|Parser Error|Parse Error' godot-runtime.log; then exit 1; fi
+
+  windows-build:
+    name: Compiler l'aperçu Windows
+    needs: godot-validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.3
+          use-dotnet: false
+          include-templates: true
+      - name: Exporter le jeu Windows
+        shell: bash
+        run: |
+          mkdir -p dist
+          godot --headless --path game --editor --import --quit
+          godot --headless --path game --export-release "Windows Desktop" ../dist/ShurikenSchool3D.exe
+          ls -lah dist
+          test -s dist/ShurikenSchool3D.exe
+      - name: Publier l'EXE et les données du jeu
+        uses: actions/upload-artifact@v4
+        with:
+          name: ShurikenSchool3D-Windows
+          path: dist/*
+          retention-days: 30
