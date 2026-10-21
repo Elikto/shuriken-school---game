@@ -37,6 +37,13 @@ jobs:
           godot --headless --path game --editor --import --quit 2>&1 | tee godot-import.log
           if grep -E 'SCRIPT ERROR|Parser Error|Parse Error' godot-import.log; then exit 1; fi
 
+      - name: Tester le gameplay (vagues, héros, fumée, coffre)
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --path game --script res://tests/smoke.gd 2>&1 | tee godot-smoke.log
+          if grep -E 'SCRIPT ERROR|Parser Error|Parse Error|FAIL:' godot-smoke.log; then exit 1; fi
+
       - name: Lancer brièvement la scène principale
         shell: bash
         run: |
