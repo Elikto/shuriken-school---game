@@ -1,23 +1,29 @@
-# Shuriken School — campagne 3D (alpha 0.3, fan-game non officiel)
+# Shuriken School — campagne 3D (alpha 0.4 visuelle, fan-game non officiel)
 
 **Un jeu d'action et d'exploration 3D à la troisième personne**, comprenant trois missions à débloquer successivement. Les personnages, les éléments narratifs de la série et leurs techniques restent soumis à un travail documentaire épisode par épisode ; le code actuel ne contient **aucun modèle ou enregistrement officiel**.
 
+## Alpha 0.4 — direction artistique interactive
+
+Cette itération remplace une partie des simples blocs par un dojo procédural plus riche : cour pavée, bâtiments à toits superposés, chute d'eau, petit pont, arbres, lanternes, objets d'entraînement et décors de montagne. Caméra plus aérienne et éloignée, mini-carte dynamique, cartes des trois héros et compétences affichées en bas de l'écran. Les personnages portent des tenues provisoires noir/bleu, avec cheveux et accessoires distincts ; animation de course élémentaire et contours sombres. **Il s'agit de géométrie jouable en Godot et non d'un décor figé.**
+
+**Écart avec l'image de référence : important.** Le rendu est encore à base de maquettes procédurales : il faut des modèles 3D riggés, animations fidèles, textures et véritables décors optimisés, ainsi qu'une revue de la série. La capture GitHub Actions ne prouve pas la performance sur téléphone.
+
 ## Jouer sur Windows
 
-Ouvrez l'onglet [GitHub Actions](https://github.com/Elikto/shuriken-school---game/actions/workflows/godot-validation.yml), choisissez le dernier test **vert**, puis téléchargez l'archive **ShurikenSchool3D-Windows**. Décompressez **EXE et PCK dans le même dossier** et lancez l'EXE. Ne lancez pas la source Godot si vous voulez seulement jouer.
+Ouvrez l'onglet [GitHub Actions](https://github.com/Elikto/shuriken-school---game/actions/workflows/godot-validation.yml), choisissez le [run Godot 4.6.3 vérifié](https://github.com/Elikto/shuriken-school---game/actions/runs/39527093280) ou le dernier test **vert**, puis téléchargez l'archive **ShurikenSchool3D-Windows**. Décompressez **EXE et PCK dans le même dossier** et lancez l'EXE. Ne lancez pas la source Godot si vous voulez seulement jouer.
 
 ## État des fonctionnalités
 
-| Fonction | État alpha 0.3 |
+| Fonction | État alpha 0.4 |
 | --- | --- |
-| 3D troisième personne | Implémenté ; rendu procédural provisoire |
+| 3D troisième personne | Jouable avec caméra plus aérienne et modernisation de la scène ; rendu toujours provisoire |
 | Missions | Trois chapitres originaux avec repérage de trois rouleaux, vagues, coffres et boss |
 | Ennemi de mêlée, garde lourd, ennemi à distance | Implémentés |
 | Boss | Trois variantes avec trois phases, charge et attaque de zone annoncée |
 | Héros | Eizan, Okuni, Jimmy B interchangeables en solo |
 | Actions | Marche, course, saut, combo x3, esquive, techniques, course murale Eizan, camouflage fumée |
 | Progression | Déblocage de mission, meilleurs scores étoilés et pièces conservées en local |
-| Effets et graphismes | Décors 3D toon originaux et provisoires, aucun asset officiel |
+| Effets et graphismes | Décors 3D toon procéduraux plus riches, ombrages, portraits, mini-carte ; aucun asset officiel |
 | Coop Internet | **Pas implémentée / pas annoncée comme disponible** |
 | Téléphone | Interface tactile expérimentale ; pas d'APK publié |
 | Niveau « 100 % fidèle » | **Non atteint : vérification épisode par épisode à faire** |
